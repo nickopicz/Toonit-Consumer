@@ -1,27 +1,50 @@
 {
-  "expo": {
-    "name": "Toonit-Consumer",
-    "slug": "Toonit-Consumer",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "Toonit-Consumer",
+		"slug": "Toonit-Consumer",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"plugins": [
+			[
+				"expo-location",
+				{
+					"locationAlwaysAndWhenInUsePermission": "Allow Toonit to use your location."
+				}
+			]
+		],
+		"ios": {
+			"supportsTablet": true,
+			"config": {
+				"googleMapsApiKey": "AIzaSyBVWZJiZ-ucdD0iSGBPMxSuRTfQab4-MaU"
+			},
+			"bundleIdentifier": "com.nickomane.ToonitConsumer"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyDJp14x9D7ISAMKb_6Q-uhdO-BqtN0xGQQ"
+				}
+			},
+			"package": "com.nickomane.ToonitConsumer"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "718d1cf2-671d-4cc7-b504-f7a6a3c6113d"
+			}
+		}
+	}
 }
