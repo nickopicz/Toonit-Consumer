@@ -7,10 +7,16 @@ import { setCoordinates } from './redux/slices/coordinateSlice';
 import * as Location from 'expo-location';
 import getLocation from './functions/getLocation';
 import store from './redux/store';
+import { useFonts } from 'expo-font';
+import { MyTabs } from './navigation/Tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 
+	const [fontsLoaded, fontError] = useFonts({
+		Montserrat: require('./assets/font/Montserrat-Regular.ttf'),
+	});
 	useEffect(() => {
 		(async () => {
 			const location = await getLocation();
@@ -23,7 +29,9 @@ export default function App() {
 	});
 	return (
 		<Provider store={store}>
-			<HomeStack />
+			<NavigationContainer>
+				<MyTabs />
+			</NavigationContainer>
 		</Provider>
 	);
 }

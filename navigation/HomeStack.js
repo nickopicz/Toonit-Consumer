@@ -5,13 +5,15 @@ const Stack = createStackNavigator();
 
 export const HomeStack = () => {
 	return (
-		<NavigationContainer>
-			<Stack.Navigator>
-				<Stack.Screen
-					name="Map"
-					component={MapScreen}
-				/>
-			</Stack.Navigator>
-		</NavigationContainer>
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: false,
+			}}
+		>
+			<Stack.Screen
+				name="Map"
+				component={MapScreen}
+			/>
+		</Stack.Navigator>
 	);
 };

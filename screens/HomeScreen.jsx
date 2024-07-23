@@ -1,7 +1,5 @@
-// MapScreen.js
-
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -9,13 +7,26 @@ import watchLocation from '../functions/watchLocation';
 import { setCoordinates } from '../redux/slices/coordinateSlice';
 import * as Location from 'expo-location'
 import { useDispatch } from 'react-redux';
+import HorizontalSliderModal from '../components/misc/SlideModal';
+import SearchBar from '../components/misc/SearchBar';
+import RecenterButton from '../components/Touchables/MapAdjust';
 //must get API key
+
+const mockData = [
+	{ id: '1', title: 'Item 1' },
+	{ id: '2', title: 'Item 2' },
+	{ id: '3', title: 'Item 3' },
+	{ id: '4', title: 'Item 4' },
+	{ id: '5', title: 'Item 5' },
+];
 
 const MapScreen = () => {
 
 	const dispatch = useDispatch();
 	const { latitude, longitude } = useSelector(state => state.coordinates);
-
+	const [slideModalVis, setSlideModalVis] = useState(true)
+	const [searchValue, setSearchValue] = useState("")
+	const mapRef = useRef(null);
 	useEffect(() => {
 		const watchLocationUpdates = async () => {
 			await watchLocation(
@@ -38,27 +49,46 @@ const MapScreen = () => {
 		// };
 	}, [dispatch]);
 
+	const handleRecenter = () => {
+		if (latitude && longitude && mapRef.current) {
+			mapRef.current.animateToRegion(
+				{
+					latitude,
+					longitude,
+					latitudeDelta: 0.0922,
+					longitudeDelta: 0.0421,
+				},
+				1000
+			);
+		}
+	};
+
 	return (
-		<View style={styles.container}>
-			<MapView
-				provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
-				style={styles.map}
-				region={{
-					latitude: latitude ? latitude : 144.0303,
-					longitude: longitude ? longitude : -122.4324,
-					latitudeDelta: 0.022,
-					longitudeDelta: 0.421,
-				}}
-			/>
-		</View>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<View style={styles.container}>
+				<MapView
+					ref={mapRef}
+					provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
+					style={styles.map}
+
+					initialRegion={{
+						latitude: latitude || 37.78825,
+						longitude: longitude || -122.4324,
+						latitudeDelta: 0.0922,
+						longitudeDelta: 0.0421,
+					}}
+				/>
+				<SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+				<HorizontalSliderModal data={mockData} />
+				<RecenterButton onPress={handleRecenter} />
+			</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		...StyleSheet.absoluteFillObject,
-		height: '100%',
-		width: '100%',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 	},
