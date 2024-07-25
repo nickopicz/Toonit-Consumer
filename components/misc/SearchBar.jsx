@@ -11,10 +11,9 @@ const SearchBar = ({ searchValue, setSearchValue }) => {
                 iconName="map"
                 placeholder="Where am I?"
                 placeholderColor="gray"
-                textColor="black"
                 value={searchValue}
                 onChangeText={setSearchValue}
-                // style={styles.input}
+                // borderwidth={0}
                 large // Adjust width prop as needed
             />
         </View>
@@ -27,9 +26,7 @@ const styles = StyleSheet.create({
         top: 40,
         width: '95%',
         backgroundColor: Colors.White,
-        // padding: 10,
         zIndex: 20, // Ensure it is above other elements
-        // height: "10%",
         justifyContent: "center",
         shadowColor: '#000', // for iOS
         shadowOffset: { width: 0, height: 2 }, // for iOS
@@ -38,13 +35,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 2
 
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 10,
     },
 });
 

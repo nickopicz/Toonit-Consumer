@@ -46,7 +46,7 @@ export const RoundedButton = React.forwardRef((props, ref) => {
 			style={{
 				width: width,
 				backgroundColor:
-					props.enablight && props.enablight.state ? Colors.Trim : Colors.White,
+					props.enablight && props.enablight.state ? Colors.Trim : Colors.Background,
 				alignItems: 'center',
 				justifyContent: 'center',
 				paddingHorizontal: 10,
@@ -56,7 +56,7 @@ export const RoundedButton = React.forwardRef((props, ref) => {
 			}}
 		>
 			<Text
-				p1
+				p2
 				white
 				u
 				background={props.enablight && props.enablight.state}
@@ -65,8 +65,8 @@ export const RoundedButton = React.forwardRef((props, ref) => {
 				{props.enablight && props.enablight.state
 					? props.enablight.text
 					: props.children
-					? props.children
-					: ''}
+						? props.children
+						: ''}
 			</Text>
 		</TouchableOpacity>
 	);

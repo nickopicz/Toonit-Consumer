@@ -42,9 +42,8 @@ export const CustomInput = React.forwardRef((props, ref) => {
 			paddingLeft: 15,
 			paddingRight: 32,
 			paddingVertical: 10,
-
-			borderColor: Colors.Trim,
-			borderWidth: 0,
+			borderColor: props.bordercolor || Colors.Trim,
+			borderWidth: 0 || props.borderwidth,
 		},
 		input: {
 			// backgroundColor: "#00FF0030",
@@ -76,7 +75,7 @@ export const CustomInput = React.forwardRef((props, ref) => {
 				style={{
 					...styles.input,
 					...props.style,
-					color: props.textColor ? props.textColor : Colors.White,
+					color: props.textColor ? props.textColor : Colors.Black,
 				}}
 				ref={ref}
 				{...props}

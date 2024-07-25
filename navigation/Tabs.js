@@ -2,6 +2,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { HomeStack } from './HomeStack';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../Constants';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -9,8 +10,8 @@ export function MyTabs() {
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"
-			activeColor={Colors.Black}
-			inactiveColor={Colors.Trim}
+			activeColor={Colors.Trim}
+			inactiveColor={Colors.Black}
 			barStyle={{ backgroundColor: Colors.White }}
 			shifting={false}
 		>
@@ -28,10 +29,20 @@ export function MyTabs() {
 					),
 				}}
 			/>
-			{/* <Tab.Screen
-				name="Settings"
-				component={SettingsScreen}
-			/> */}
+			<Tab.Screen
+				name="Profile"
+				component={ProfileScreen}
+				options={{
+					tabBarLabel: 'Profile',
+					tabBarIcon: ({ color, size, focused }) => (
+						<FontAwesome
+							name="user"
+							size={24}
+							color={Colors.Black}
+						/>
+					),
+				}}
+			/>
 		</Tab.Navigator>
 	);
 }
