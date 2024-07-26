@@ -27,7 +27,7 @@ const AutoCompleteModal = ({ searchValue, setSearchValue, onItemSelect, visible,
     return (
         <Modal
             visible={visible}
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             onRequestClose={onClose}
         >
@@ -37,7 +37,7 @@ const AutoCompleteModal = ({ searchValue, setSearchValue, onItemSelect, visible,
                         medium
                         borderwidth={1}
                         // style={styles.input}
-                        placeholder="Search for a car"
+                        placeholder="Search for your car..."
                         value={searchValue}
                         onChangeText={setSearchValue}
                     />
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: "50%"
+        height: "50%",
     },
     input: {
         height: 40,

@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
 import CustomText from '../common/Text';
 import { Colors } from '../../Constants';
 
-const HorizontalSliderModal = ({ data }) => {
+const HorizontalSliderModal = ({ data, serviceTap }) => {
     return (
         <View style={styles.container}>
             <FlatList
@@ -11,7 +11,7 @@ const HorizontalSliderModal = ({ data }) => {
                 data={data}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.item}>
+                    <TouchableOpacity style={styles.item} onPress={serviceTap}>
                         <CustomText p1 trim>{item.title}</CustomText>
                     </TouchableOpacity>
                 )}

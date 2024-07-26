@@ -29,14 +29,14 @@ export const CustomInput = React.forwardRef((props, ref) => {
 	} else if (props.medium) {
 		width = Dim.width * 0.6;
 	} else if (props.large) {
-		width = Dim.width * 0.8;
+		width = Dim.width * 0.9;
 	}
 	const styles = StyleSheet.create({
 		container: {
 			width: width,
 			flexDirection: 'row',
 			backgroundColor: Colors.White,
-			borderRadius: 23,
+			borderRadius: 10,
 			margin: 12,
 			alignItems: 'center',
 			paddingLeft: 15,

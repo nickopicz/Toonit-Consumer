@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity, FlatList } from 'react-native';
 import { CustomInput } from '../components/common/Input';
 import { RoundedButton } from '../components/common/Button';
-import { Colors } from '../Constants';
+import { Colors, Dim } from '../Constants';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import cars from '../assets/database/unique_make_model_year_converted.json';
 import AutoCompleteModal from '../components/misc/VehicleSearchModal';
+import { CardStyleInterpolators } from '@react-navigation/stack';
+import CustomText from '../components/common/Text';
 
 const ProfileScreen = () => {
     const [firstName, setFirstName] = useState('');
@@ -76,16 +78,11 @@ const ProfileScreen = () => {
                     onChangeText={setConfirmEmail}
                     borderwidth={1}
                 />
-                <RoundedButton onPress={() => setModalVis(true)}>
-                    Add new car
-                </RoundedButton>
-                <AutoCompleteModal
-                    searchValue={text}
-                    setSearchValue={setText}
-                    onItemSelect={handleItemSelect}
-                    onClose={() => setModalVis(false)}
-                    visible={modalVis}
-                />
+                <View style={styles.divider}>
+                    <View style={styles.line} />
+                    <CustomText p2 black> VEHICLES </CustomText>
+                    <View style={styles.line} />
+                </View>
                 <Dropdown
                     style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                     placeholderStyle={styles.placeholderStyle}
@@ -113,7 +110,7 @@ const ProfileScreen = () => {
                         />
                     )}
                 />
-                <FlatList
+                {/* <FlatList
                     data={vehicles}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
@@ -124,13 +121,25 @@ const ProfileScreen = () => {
                             </TouchableOpacity>
                         </View>
                     )}
-                />
+                /> */}
+                <View style={styles.addButtonContainer}>
+                    <RoundedButton medium style={styles.addButton} onPress={() => setModalVis(true)}>
+                        Add new car
+                    </RoundedButton>
+                </View>
             </ScrollView>
             <View style={styles.buttonContainer}>
-                <RoundedButton large>
-                    Confirm
+                <RoundedButton medium style={{ backgroundColor: Colors.Trim }}>
+                    Done
                 </RoundedButton>
             </View>
+            <AutoCompleteModal
+                searchValue={text}
+                setSearchValue={setText}
+                onItemSelect={handleItemSelect}
+                onClose={() => setModalVis(false)}
+                visible={modalVis}
+            />
         </>
     );
 };
@@ -141,24 +150,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         flex: 1,
+        // backgroundColor: Colors.Background
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
+        justifyContent: "space-evenly",
+        width: Dim.width,
         paddingTop: 50
     },
     dropdown: {
-        height: 40,
+        height: 45,
         borderColor: Colors.Trim,
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
         paddingHorizontal: 10,
         backgroundColor: Colors.White,
         justifyContent: 'center',
         marginVertical: 10,
-        width: '100%',
+        width: Dim.width * 0.9,
     },
     placeholderStyle: {
         color: Colors.Gray,
@@ -170,6 +180,12 @@ const styles = StyleSheet.create({
         height: 40,
         paddingHorizontal: 10,
         backgroundColor: Colors.White,
+    },
+    addButtonContainer: {
+        paddingTop: 20
+    },
+    addButton: {
+        backgroundColor: Colors.Trim,
     },
     vehicleItem: {
         flexDirection: 'row',
@@ -197,7 +213,8 @@ const styles = StyleSheet.create({
     buttonContainer: {
         width: '100%',
         alignItems: "center",
-        paddingVertical: 20
+        paddingVertical: 20,
+        // backgroundColor: Colors.Background
     },
     icon: {
         marginRight: 10,
@@ -206,6 +223,20 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
     },
+    line: {
+        height: 2,
+        width: "30%",
+        backgroundColor: Colors.Black,
+        alignSelf: "center",
+        paddingHorizontal: 10
+    },
+    divider: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "center",
+        paddingTop: 20
+
+    }
 });
 
 export default ProfileScreen;

@@ -13,7 +13,7 @@ async function getLocation(): Promise<LocationCoordinates | null> {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log("location: ", location)
+    // console.log("location: ", location)
     return {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,

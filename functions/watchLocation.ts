@@ -23,7 +23,7 @@ async function watchLocation(
             distanceInterval: 1, // Update every meter
         },
         (location) => {
-            console.log("location in function: ", location)
+            // console.log("location in function: ", location)
             onLocationUpdate({
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
