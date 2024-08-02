@@ -52,6 +52,8 @@ export const RoundedButton = React.forwardRef((props, ref) => {
 				paddingHorizontal: 10,
 				paddingVertical: 7.5,
 				borderRadius: 18,
+				borderWidth: 1,
+				borderColor: Colors.Black,
 				...props.style,
 			}}
 		>

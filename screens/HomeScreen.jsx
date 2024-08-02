@@ -21,7 +21,7 @@ const mockData = [
 	{ id: '5', title: 'Item 5' },
 ];
 let exampleText = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.Et harum quidem rerum facilis est et expedita distinctio.Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
 
 	const dispatch = useDispatch();
 	const { latitude, longitude } = useSelector(state => state.coordinates);
@@ -30,16 +30,18 @@ const MapScreen = () => {
 	const [mechModalVis, setMechModalVis] = useState(false);
 
 	const mapRef = useRef(null);
-	useEffect(() => {
+	useEffect(async () => {
 		const watchLocationUpdates = async () => {
 			await watchLocation(
 				(location) => dispatch(setCoordinates(location)),
 				(error) => console.error(error) // Handle error appropriately
 			);
 		};
-
+		// 3 seconds delay
 		watchLocationUpdates();
-
+		const timer = setTimeout(() => {
+			setMessage("Hello, after delay!");
+		}, 3000);
 		// Optionally, you can return a cleanup function to stop watching the location when the component unmounts
 		// return () => {
 		// 	Location.hasStartedLocationUpdatesAsync()
@@ -50,6 +52,7 @@ const MapScreen = () => {
 		// 		})
 		// 		.catch((error) => console.error('Error stopping location updates:', error));
 		// };
+		return () => clearTimeout(timer);
 	}, [dispatch]);
 
 	const handleRecenter = () => {
@@ -89,6 +92,10 @@ const MapScreen = () => {
 					onClose={() => setMechModalVis(false)}
 					profileImage={require("../assets/favicon.png")}
 					summaryText={exampleText}
+					onConfirm={() => {
+						navigation.navigate("Service");
+						setMechModalVis(false)
+					}}
 				/>
 			</View>
 		</TouchableWithoutFeedback>

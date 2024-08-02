@@ -34,7 +34,7 @@ const ProfileScreen = () => {
     const vehicleData = vehicles.map(vehicle => ({ label: vehicle, value: vehicle }));
 
     return (
-        <>
+        <View style={styles.background}>
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.row}>
                     <CustomInput
@@ -124,13 +124,14 @@ const ProfileScreen = () => {
                 /> */}
                 <View style={styles.addButtonContainer}>
                     <RoundedButton medium style={styles.addButton} onPress={() => setModalVis(true)}>
-                        Add new car
+                        <CustomText p2 u black>Add new car</CustomText>
                     </RoundedButton>
                 </View>
             </ScrollView>
             <View style={styles.buttonContainer}>
                 <RoundedButton medium style={{ backgroundColor: Colors.Trim }}>
-                    Done
+                    <CustomText p2 u black>done</CustomText>
+
                 </RoundedButton>
             </View>
             <AutoCompleteModal
@@ -140,7 +141,7 @@ const ProfileScreen = () => {
                 onClose={() => setModalVis(false)}
                 visible={modalVis}
             />
-        </>
+        </View>
     );
 };
 
@@ -151,6 +152,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flex: 1,
         // backgroundColor: Colors.Background
+    },
+    background: {
+        backgroundColor: Colors.Background,
+        flex: 1
     },
     row: {
         flexDirection: 'row',
