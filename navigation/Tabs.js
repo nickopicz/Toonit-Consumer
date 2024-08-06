@@ -3,6 +3,8 @@ import { HomeStack } from './HomeStack';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../Constants';
 import ProfileScreen from '../screens/ProfileScreen';
+import ReceiptListScreen from '../screens/History/RecepitsList';
+import { HistoryStack } from './HistoryStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -37,6 +39,20 @@ export function MyTabs() {
 					tabBarIcon: ({ color, size, focused }) => (
 						<FontAwesome
 							name="user"
+							size={24}
+							color={Colors.Black}
+						/>
+					),
+				}}
+			/>
+			<Tab.Screen
+				name="History"
+				component={HistoryStack}
+				options={{
+					tabBarLabel: 'History',
+					tabBarIcon: ({ color, size, focused }) => (
+						<FontAwesome
+							name="history"
 							size={24}
 							color={Colors.Black}
 						/>

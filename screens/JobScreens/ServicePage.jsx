@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import CustomText from "../components/common/Text";
+import CustomText from "../../components/common/Text";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { Dropdown } from 'react-native-element-dropdown';
-import { Colors } from "../Constants";
+import { Colors } from "../../Constants";
+import { RoundedButton } from "../../components/common/Button";
 
 const ServiceScreen = ({ navigation }) => {
     const [selectedValue, setSelectedValue] = useState(null);
@@ -21,17 +22,19 @@ const ServiceScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.datecontainer}>
-                <CustomText p1 black u>When will this occur?</CustomText>
-                <RNDateTimePicker
-                    maximumDate={future}
-                    minimumDate={today}
-                    value={new Date()}
-                    mode="datetime"
-                    accentColor={Colors.Trim}
-                    style={styles.picker}
-                />
+                <CustomText p1 black u>Date and Time</CustomText>
+                <View style={styles.picker}>
+                    <RNDateTimePicker
+                        maximumDate={future}
+                        minimumDate={today}
+                        value={new Date()}
+                        mode="datetime"
+                        accentColor={Colors.Trim}
+                    />
+                </View>
             </View>
             <View style={styles.pickerContainer}>
+                <CustomText p1 black u style={styles.serviceText}>What service?</CustomText>
                 <Dropdown
                     style={styles.dropdown}
                     data={data}
@@ -44,6 +47,9 @@ const ServiceScreen = ({ navigation }) => {
                     }}
                 />
             </View>
+            <View style={styles.buttonContainer}>
+                <RoundedButton large onPress={() => { navigation.navigate("FirstReceipt") }}>Confirm</RoundedButton>
+            </View>
         </View>
     );
 }
@@ -52,7 +58,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
+        flexDirection: "column",
         backgroundColor: Colors.Background,
     },
     datecontainer: {
@@ -61,19 +68,22 @@ const styles = StyleSheet.create({
         height: "15%",
         backgroundColor: Colors.White,
         width: "80%",
-        padding: 10,
+        // padding: 10,
         borderRadius: 10,
-        marginBottom: 20, // Added margin to separate the date picker and the dropdown picker
+        // marginBottom: 20, // Added margin to separate the date picker and the dropdown picker
     },
     picker: {
         width: "100%",
-        alignSelf: "center",
+        alignItems: "center",
+        paddingVertical: 10
     },
     pickerContainer: {
         width: "80%",
         backgroundColor: Colors.White,
         borderRadius: 10,
-        padding: 10,
+        padding: 15,
+        alignItems: "center",
+        justifyContent: "center"
     },
     dropdown: {
         width: "100%",
@@ -83,6 +93,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 8,
     },
+    serviceText: {
+        paddingVertical: 10
+    },
+    buttonContainer: {
+        paddingVertical: 50,
+
+    }
 });
 
 export default ServiceScreen;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -30,29 +30,21 @@ const MapScreen = ({ navigation }) => {
 	const [mechModalVis, setMechModalVis] = useState(false);
 
 	const mapRef = useRef(null);
-	useEffect(async () => {
+	useEffect(() => {
 		const watchLocationUpdates = async () => {
 			await watchLocation(
 				(location) => dispatch(setCoordinates(location)),
 				(error) => console.error(error) // Handle error appropriately
 			);
+			// const timer = setTimeout(() => {
+			// 	setMessage("Hello, after delay!");
+			// }, 3000);
+
+			// return () => clearTimeout(timer);
 		};
 		// 3 seconds delay
 		watchLocationUpdates();
-		const timer = setTimeout(() => {
-			setMessage("Hello, after delay!");
-		}, 3000);
-		// Optionally, you can return a cleanup function to stop watching the location when the component unmounts
-		// return () => {
-		// 	Location.hasStartedLocationUpdatesAsync()
-		// 		.then((started) => {
-		// 			if (started) {
-		// 				Location.stopLocationUpdatesAsync();
-		// 			}
-		// 		})
-		// 		.catch((error) => console.error('Error stopping location updates:', error));
-		// };
-		return () => clearTimeout(timer);
+
 	}, [dispatch]);
 
 	const handleRecenter = () => {

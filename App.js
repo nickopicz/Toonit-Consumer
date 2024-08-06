@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { HomeStack } from './navigation/HomeStack';
 import { useEffect, useState } from 'react';
@@ -10,6 +9,7 @@ import store from './redux/store';
 import { useFonts } from 'expo-font';
 import { MyTabs } from './navigation/Tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
@@ -30,7 +30,10 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<NavigationContainer>
+				<StatusBar style="dark" />
+				{/* <SafeAreaView style={{ flex: 1 }}> */}
 				<MyTabs />
+				{/* </SafeAreaView> */}
 			</NavigationContainer>
 		</Provider>
 	);
