@@ -11,6 +11,7 @@ import HorizontalSliderModal from '../components/misc/SlideModal';
 import SearchBar from '../components/misc/SearchBar';
 import RecenterButton from '../components/Touchables/MapAdjust';
 import MechModal from '../components/misc/MechModal';
+import SummaryModal from '../components/misc/SummaryModal';
 //must get API key
 
 const mockData = [
@@ -28,6 +29,7 @@ const MapScreen = ({ navigation }) => {
 	const [slideModalVis, setSlideModalVis] = useState(true);
 	const [searchValue, setSearchValue] = useState("");
 	const [mechModalVis, setMechModalVis] = useState(false);
+	const [summaryModalVis, setSummaryModalVis] = useState(false)
 
 	const mapRef = useRef(null);
 	useEffect(() => {
@@ -88,6 +90,12 @@ const MapScreen = ({ navigation }) => {
 						navigation.navigate("Service");
 						setMechModalVis(false)
 					}}
+				/>
+				<SummaryModal
+					visible={summaryModalVis}
+					onClose={() => setSummaryModalVis(false)}
+					profileImage={require("../assets/favicon.png")}
+					mechanicName={"John"}
 				/>
 			</View>
 		</TouchableWithoutFeedback>
