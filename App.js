@@ -10,7 +10,8 @@ import { useFonts } from 'expo-font';
 import { MyTabs } from './navigation/Tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-
+import { StripeProvider } from '@stripe/stripe-react-native';
+import { StripeKey } from './keys';
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 
@@ -29,12 +30,14 @@ export default function App() {
 	});
 	return (
 		<Provider store={store}>
-			<NavigationContainer>
-				<StatusBar style="dark" />
-				{/* <SafeAreaView style={{ flex: 1 }}> */}
-				<MyTabs />
-				{/* </SafeAreaView> */}
-			</NavigationContainer>
+			<StripeProvider publishableKey={StripeKey}>
+				<NavigationContainer>
+					<StatusBar style="dark" />
+					{/* <SafeAreaView style={{ flex: 1 }}> */}
+					<MyTabs />
+					{/* </SafeAreaView> */}
+				</NavigationContainer>
+			</StripeProvider>
 		</Provider>
 	);
 }

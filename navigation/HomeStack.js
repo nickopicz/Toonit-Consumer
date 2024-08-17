@@ -5,6 +5,7 @@ import ServiceScreen from '../screens/JobScreens/ServicePage';
 import FirstReceiptScreen from '../screens/JobScreens/FirstReceipt';
 import PayScreen from '../screens/JobScreens/PaymentScreen';
 import ConfirmScreen from '../screens/JobScreens/ConfirmScreen';
+import SummaryScreen from '../screens/JobScreens/Summary';
 const Stack = createStackNavigator();
 
 export const HomeStack = () => {
@@ -33,6 +34,10 @@ export const HomeStack = () => {
 			<Stack.Screen
 				name="Confirm"
 				component={ConfirmScreen}
+			/>
+			<Stack.Screen
+				name="Summary"
+				component={SummaryScreen}
 			/>
 		</Stack.Navigator>
 	);
