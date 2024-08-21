@@ -165,9 +165,10 @@ const SignInScreen = ({ navigation }) => {
                 large
                 style={styles.confirm}
                 textStyle={{ color: Colors.Black }}
-                disabled={!phoneNum || !email}
+                // disabled={!phoneNum || !email}
                 onPress={() => {
-                    handlePress();
+                    // handlePress();
+                    navigation.navigate("Verification")
                 }}
             >
                 Continue
