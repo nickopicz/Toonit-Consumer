@@ -8,7 +8,7 @@ import { HistoryStack } from './HistoryStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
-export function MyTabs() {
+export function MainTabs() {
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"

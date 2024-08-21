@@ -5,7 +5,8 @@ export const Colors = {
     Trim: "#e8810c",
     Black: "#000000",
     White: "#ffffff",
-    Gray: "#5A5A5A"
+    Gray: "#5A5A5A",
+    Red: "#D75341"
 
 };
 

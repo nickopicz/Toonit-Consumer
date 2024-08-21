@@ -21,24 +21,24 @@ import { Colors, Font } from '../../Constants';
 
   Colors: (defaults to white. only apply one.) 
   These should be updated periodically to reflect Constants.js
-    background: "#000000",
-    foreground: "#222831",
-    navbar: "#393E46",
-    contrast: "#6495ED",
-    light: "#87CEFA",
-    white: "#E0FFFF",
-    record: "#DA8F81",
-    earth: "#9d847e",
+	background: "#000000",
+	foreground: "#222831",
+	navbar: "#393E46",
+	contrast: "#6495ED",
+	light: "#87CEFA",
+	white: "#E0FFFF",
+	record: "#DA8F81",
+	earth: "#9d847e",
   
   Uppercase: use u prop
 
   Example: <Text h3 red u>Agora</Text> will display RAGER in 28 pt font colored red
 
   RN Text props (see RN docs):
-    numberOfLines (number)
-    ellipsizeMode (string)
-    onPress (function)
-    textBreakStrategy (string)
+	numberOfLines (number)
+	ellipsizeMode (string)
+	onPress (function)
+	textBreakStrategy (string)
 */
 const CustomText = (props) => {
 	let font = {};
@@ -72,6 +72,8 @@ const CustomText = (props) => {
 		color = Colors.Gray;
 	} else if (props.white) {
 		color = Colors.White;
+	} else if (props.red) {
+		color = Colors.Red
 	}
 
 	return (

@@ -7,11 +7,12 @@ import * as Location from 'expo-location';
 import getLocation from './functions/getLocation';
 import store from './redux/store';
 import { useFonts } from 'expo-font';
-import { MyTabs } from './navigation/Tabs';
+import { MainTabs } from './navigation/Tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { StripeKey } from './keys';
+import { AuthStack } from './navigation/AuthStack';
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 
@@ -34,7 +35,8 @@ export default function App() {
 				<NavigationContainer>
 					<StatusBar style="dark" />
 					{/* <SafeAreaView style={{ flex: 1 }}> */}
-					<MyTabs />
+					{/* <MainTabs /> */}
+					<AuthStack />
 					{/* </SafeAreaView> */}
 				</NavigationContainer>
 			</StripeProvider>
