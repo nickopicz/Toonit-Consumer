@@ -115,7 +115,7 @@ const SignInScreen = ({ navigation }) => {
                             </CustomText>
                         </TouchableOpacity>
                         <CustomInput
-                            style={styles.input}
+                            medium
                             autoCorrect={false}
                             autoFocus={true}
                             textContentType="telephoneNumber"
@@ -151,7 +151,7 @@ const SignInScreen = ({ navigation }) => {
                         or your email.{'\n'}
                     </CustomText>
                     <CustomInput
-                        style={styles.emailInput}
+                        large
                         autoCorrect={false}
                         textContentType="email"
                         placeholder="someone@random.com"
@@ -215,9 +215,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginLeft: -30,
-    },
-    input: {
-        width: '60%',
     },
     emailInput: {
         width: "80%"

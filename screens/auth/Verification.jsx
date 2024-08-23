@@ -19,17 +19,19 @@ const VerificationScreen = ({ navigation }) => {
                         Please input the verification code sent to your {type}.
                     </CustomText>
                     <CustomInput
-                        value={code}
+                        large
                         style={styles.input}
                         autoCorrect={false}
                         placeholder="Enter code here..."
                         iconName="log-in"
+                        value={code}
+                        onChangeText={(code) => setCode(code)}
                     />
                 </View>
 
             </TouchableWithoutFeedback>
             <RoundedButton large onPress={() => {
-                // navigation.navigate("Password")
+                navigation.navigate("Password")
             }}>
                 Continue
             </RoundedButton>
