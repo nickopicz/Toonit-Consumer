@@ -35,8 +35,8 @@ export default function App() {
 				<NavigationContainer>
 					<StatusBar style="dark" />
 					{/* <SafeAreaView style={{ flex: 1 }}> */}
-					{/* <MainTabs /> */}
-					<AuthStack />
+					<MainTabs />
+					{/* <AuthStack /> */}
 					{/* </SafeAreaView> */}
 				</NavigationContainer>
 			</StripeProvider>

@@ -10,7 +10,7 @@ import AutoCompleteModal from '../components/misc/VehicleSearchModal';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import CustomText from '../components/common/Text';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -83,47 +83,9 @@ const ProfileScreen = () => {
                     <CustomText p2 black> VEHICLES </CustomText>
                     <View style={styles.line} />
                 </View>
-                <Dropdown
-                    style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
-                    iconStyle={styles.iconStyle}
-                    data={vehicleData}
-                    maxHeight={300}
-                    labelField="label"
-                    valueField="value"
-                    placeholder="Select Active Vehicle"
-                    value={activeVehicle}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
-                    onChange={item => {
-                        setActiveVehicle(item.value);
-                        setIsFocus(false);
-                    }}
-                    renderLeftIcon={() => (
-                        <AntDesign
-                            style={styles.icon}
-                            color={isFocus ? 'blue' : 'black'}
-                            name="car"
-                            size={20}
-                        />
-                    )}
-                />
-                {/* <FlatList
-                    data={vehicles}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (
-                        <View style={styles.vehicleItem}>
-                            <Text style={styles.vehicleText}>{item}</Text>
-                            <TouchableOpacity onPress={() => handleRemoveVehicle(index)} style={styles.removeButton}>
-                                <Feather name='x' size={20} color={Colors.Black} />
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                /> */}
+
                 <View style={styles.addButtonContainer}>
-                    <RoundedButton medium style={styles.addButton} onPress={() => setModalVis(true)}>
+                    <RoundedButton medium style={styles.addButton} onPress={() => navigation.navigate("Car")}>
                         <CustomText p2 u black>Add new car</CustomText>
                     </RoundedButton>
                 </View>
@@ -134,13 +96,6 @@ const ProfileScreen = () => {
 
                 </RoundedButton>
             </View>
-            <AutoCompleteModal
-                searchValue={text}
-                setSearchValue={setText}
-                onItemSelect={handleItemSelect}
-                onClose={() => setModalVis(false)}
-                visible={modalVis}
-            />
         </View>
     );
 };

@@ -4,7 +4,7 @@ import { Colors } from "../../Constants";
 import { RoundedButton } from "../../components/common/Button";
 import AutoCompleteInput from "../../components/misc/AutoCompleteInput";
 
-const FirstCarScreen = ({ navigation }) => {
+const CarScreen = ({ navigation }) => {
     const [brand, setBrand] = useState("");
     const [model, setModel] = useState("");
     const [year, setYear] = useState("");
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FirstCarScreen;
+export default CarScreen;

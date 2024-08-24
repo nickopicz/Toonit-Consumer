@@ -5,6 +5,7 @@ import { Colors } from '../Constants';
 import ProfileScreen from '../screens/ProfileScreen';
 import ReceiptListScreen from '../screens/History/RecepitsList';
 import { HistoryStack } from './HistoryStack';
+import { ProfileStack } from './ProfileStack';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -32,8 +33,8 @@ export function MainTabs() {
 				}}
 			/>
 			<Tab.Screen
-				name="Profile"
-				component={ProfileScreen}
+				name="ProfileStack"
+				component={ProfileStack}
 				options={{
 					tabBarLabel: 'Profile',
 					tabBarIcon: ({ color, size, focused }) => (
