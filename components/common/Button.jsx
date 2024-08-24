@@ -51,8 +51,8 @@ export const RoundedButton = React.forwardRef((props, ref) => {
 				justifyContent: 'center',
 				paddingHorizontal: 10,
 				paddingVertical: 7.5,
-				borderRadius: 18,
-				borderWidth: 1,
+				borderRadius: 15,
+				borderWidth: 1.25,
 				borderColor: Colors.Black,
 				...props.style,
 			}}

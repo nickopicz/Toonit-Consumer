@@ -1,105 +1,158 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import { View, FlatList, StyleSheet, TouchableOpacity, Modal, KeyboardAvoidingView, Platform } from "react-native";
 import CustomText from "../common/Text";
 import { Colors } from "../../Constants";
 import cars from "../../assets/database/unique_make_model_year_converted.json";
 import { CustomInput } from "../common/Input";
+import { RoundedButton } from "../common/Button";
 
-const AutoCompleteInput = ({ label, searchValue, setSearchValue, onItemSelect, dataKey, dependency, isActive, setActiveInput, clearActiveInput }) => {
+const AutoCompleteInput = ({ label, searchValue, setSearchValue, onItemSelect, dataKey, dependency }) => {
     const [filteredData, setFilteredData] = useState([]);
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, width: 0 });
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const filterResults = (searchValue, dependency) => {
+        let results = cars;
+
+        // Apply filtering based on dependencies
+        if (dependency) {
+            if (dataKey === "Model" && dependency) {
+                results = results.filter(car => car.Make === dependency);
+            } else if (dataKey === "Year" && dependency.brand && dependency.model) {
+                results = results.filter(car => car.Make === dependency.brand && car.Model === dependency.model);
+            }
+        }
+
+        // Map to the desired dataKey, filter out undefined or non-string values, and remove duplicates
+        const uniqueResults = new Set(
+            results
+                .map(car => car[dataKey])
+                .filter(value => typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase()))
+        );
+
+        return Array.from(uniqueResults);
+    };
+
 
     useEffect(() => {
-        if (searchValue && isActive) {
-            let results = cars;
-
-            // Apply filtering based on dependencies
-            if (dependency) {
-                if (dataKey === "Model" && dependency) {
-                    results = results.filter(car => car.Make === dependency);
-                } else if (dataKey === "Year" && dependency.brand && dependency.model) {
-                    results = results.filter(car => car.Make === dependency.brand && car.Model === dependency.model);
-                }
-            }
-
-            // Map to the desired dataKey and filter out undefined or non-string values
-            results = results
-                .map(car => car[dataKey])
-                .filter(value => typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase()));
-
+        if (searchValue) {
+            const results = filterResults(searchValue, dependency);
             setFilteredData(results);
         } else {
             setFilteredData([]);
         }
-    }, [searchValue, dependency, isActive]);
+    }, [searchValue, dependency]);
 
     const handleSelectItem = (item) => {
         setSearchValue(item);
         onItemSelect(item);
         setFilteredData([]);
-        clearActiveInput(); // Clear the active input state when an item is selected
+        setModalVisible(false); // Close the modal when an item is selected
     };
 
-    const handleFocus = (event) => {
-        setActiveInput();
-        event.target.measure((x, y, width, height) => {
-            setDropdownPosition({ top: y + height, width: width });
-        });
-    };
+    // If the label is "Year", return only the CustomInput without the modal
+    if (label === "Year") {
+        return (
+            <View style={styles.inputContainer}>
+                <CustomText h4 white style={styles.text}>{label}</CustomText>
+                <View style={{ width: "90%", marginVertical: 10, borderColor: Colors.Black, borderTopWidth: 1, borderBottomWidth: 1, paddingVertical: 5 }} >
+                    <CustomText style={{ marginLeft: 20 }} p2 black> {searchValue}</CustomText>
+                </View>
+                <CustomInput
+                    large
+                    placeholder="Enter the year of your car."
+                    keyboardType="number-pad"
+                    value={searchValue}
+                    onChangeText={setSearchValue}
+                />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.inputContainer}>
-            <CustomText p2 white>{label}</CustomText>
-            <CustomInput
-                large
-                placeholder={`Search for your ${label.toLowerCase()}...`}
-                value={searchValue}
-                onFocus={handleFocus}
-                onChangeText={setSearchValue}
-            />
-            {isActive && filteredData.length > 0 && (
-                <View style={[styles.dropdownContainer, { top: dropdownPosition.top, width: dropdownPosition.width }]}>
-                    <FlatList
-                        style={styles.dropdown}
-                        data={filteredData}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.item} onPress={() => handleSelectItem(item)}>
-                                <CustomText p3 black>{item}</CustomText>
-                            </TouchableOpacity>
-                        )}
-                    />
-                </View>
-            )}
-        </View>
+            <CustomText h4 white style={styles.text}>{label}</CustomText>
+            <View style={{ width: "90%", marginVertical: 10, borderColor: Colors.Black, borderTopWidth: 1, borderBottomWidth: 1, paddingVertical: 5 }} >
+                <CustomText style={{ marginLeft: 20 }} p2 black> {searchValue}</CustomText>
+            </View>
+
+            <RoundedButton style={styles.button} onPress={() => setModalVisible(true)}>
+                <CustomText p2 black>{`Search for your ${label.toLowerCase()}...`}</CustomText>
+            </RoundedButton>
+
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.modalContainer}
+                >
+                    <View style={styles.modalContent}>
+                        <CustomInput
+                            large
+                            placeholder={`Search for your ${label.toLowerCase()}...`}
+                            value={searchValue}
+                            onChangeText={setSearchValue}
+                            autoFocus
+                        />
+
+                        <FlatList
+                            style={styles.dropdown}
+                            data={filteredData}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.item} onPress={() => handleSelectItem(item)}>
+                                    <CustomText p3 black>{item}</CustomText>
+                                </TouchableOpacity>
+                            )}
+                            removeClippedSubviews={false}
+                        />
+
+                        <RoundedButton onPress={() => setModalVisible(false)}>Close</RoundedButton>
+                    </View>
+                </KeyboardAvoidingView>
+            </Modal>
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
     inputContainer: {
-        marginBottom: 40,
-        zIndex: 1,
+        marginBottom: 10,
         width: '100%',
     },
-    dropdownContainer: {
-        position: "absolute",
-        zIndex: 1000, // Ensure it appears above the input field and other elements
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: Colors.White,
+        borderRadius: 10,
+        padding: 20,
+        marginHorizontal: 20,
+        maxHeight: '70%',
     },
     dropdown: {
         backgroundColor: Colors.White,
         borderColor: Colors.Trim,
         borderWidth: 1,
         borderRadius: 5,
-        maxHeight: 200,
-        zIndex: 1000, // Ensure it appears above everything else
-        elevation: 5, // For Android
+        height: 150,
+        margin: 10,
     },
     item: {
         padding: 10,
     },
-    itemText: {
-        color: Colors.Black,
+    text: {
+        marginLeft: 20,
     },
+    button: {
+        margin: 20,
+        backgroundColor: Colors.White
+    }
 });
 
 export default AutoCompleteInput;

@@ -45,6 +45,7 @@ export const CustomInput = React.forwardRef((props, ref) => {
 			paddingVertical: 10,
 			borderColor: props.bordercolor || Colors.Trim,
 			borderWidth: 0 || props.borderwidth,
+			zIndex: 1
 		},
 		input: {
 			// backgroundColor: "#00FF0030",
