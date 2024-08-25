@@ -29,11 +29,14 @@ import { Feather } from '@expo/vector-icons';
 
 const SignInScreen = ({ navigation }) => {
     const phoneRef = useRef();
-    const emailRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('+1');
     const [email, setEmail] = useState("")
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const [phoneNum, setPhoneNum] = useState('');
 
@@ -144,21 +147,22 @@ const SignInScreen = ({ navigation }) => {
                             correctly
                         </CustomText>
                     </Animated.View>
-                    <CustomText
-                        p1
-                        black
-                        style={{ textAlign: "center" }}>
-                        or your email.{'\n'}
-                    </CustomText>
                     <CustomInput
                         large
                         autoCorrect={false}
-                        textContentType="email"
-                        placeholder="someone@random.com"
-                        iconName="mail"
-                        ref={emailRef}
-                        value={email}
-                        onChangeText={(email) => setEmail(email)} />
+                        placeholder="first name"
+                        iconName="user"
+                        ref={firstNameRef}
+                        value={firstName}
+                        onChangeText={(name) => setFirstName(name)} />
+                    <CustomInput
+                        large
+                        autoCorrect={false}
+                        placeholder="last name"
+                        iconName="users"
+                        ref={lastNameRef}
+                        value={lastName}
+                        onChangeText={(name) => setLastName(name)} />
                 </View>
             </TouchableWithoutFeedback>
             <RoundedButton

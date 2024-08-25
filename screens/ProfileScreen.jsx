@@ -62,22 +62,22 @@ const ProfileScreen = ({ navigation }) => {
                     onChangeText={setPhoneNumber}
                     borderwidth={1}
                 />
-                <CustomInput
+                {/* <CustomInput
                     large
                     placeholder="Email Address"
                     textColor={Colors.Black}
                     value={email}
                     onChangeText={setEmail}
                     borderwidth={1}
-                />
-                <CustomInput
+                /> */}
+                {/* <CustomInput
                     large
                     placeholder="Confirm Email Address"
                     textColor={Colors.Black}
                     value={confirmEmail}
                     onChangeText={setConfirmEmail}
                     borderwidth={1}
-                />
+                /> */}
                 <View style={styles.divider}>
                     <View style={styles.line} />
                     <CustomText p2 black> VEHICLES </CustomText>
