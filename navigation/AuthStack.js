@@ -5,6 +5,7 @@ import SignInScreen from '../screens/auth/SignUp';
 import VerificationScreen from '../screens/auth/Verification';
 import PasswordScreen from '../screens/auth/Password';
 import CarScreen from '../screens/auth/CarChoice';
+import TermsScreen from '../screens/auth/Terms';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,10 @@ export const AuthStack = () => {
 			<Stack.Screen
 				name="Car"
 				component={CarScreen}
+			/>
+			<Stack.Screen
+				name="Terms"
+				component={TermsScreen}
 			/>
 		</Stack.Navigator>
 	);

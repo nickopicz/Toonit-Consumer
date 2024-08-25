@@ -12,7 +12,7 @@ const LandingScreen = ({ navigation }) => {
                 <Image style={styles.image} source={require('../../assets/icon.png')} />
             </View>
             <View style={styles.buttonContainer}>
-                <RoundedButton large onPress={() => navigation.navigate("Signin")}>Get Started</RoundedButton>
+                <RoundedButton large onPress={() => navigation.navigate("Terms")}>Get Started</RoundedButton>
             </View>
         </SafeAreaView>
     )
