@@ -3,7 +3,7 @@ import { View, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } fr
 import CustomText from "../../components/common/Text";
 import { CustomInput } from "../../components/common/Input";
 import { RoundedButton } from "../../components/common/Button";
-import { Colors } from "../../Constants";
+import { Colors, Dim } from "../../Constants";
 
 
 const VerificationScreen = ({ navigation }) => {
@@ -30,9 +30,13 @@ const VerificationScreen = ({ navigation }) => {
                 </View>
 
             </TouchableWithoutFeedback>
-            <RoundedButton large onPress={() => {
-                navigation.navigate("Password")
-            }}>
+            <RoundedButton
+                large
+                onPress={() => {
+                    navigation.navigate("Password")
+                }}
+                style={styles.button}
+            >
                 Continue
             </RoundedButton>
         </SafeAreaView>
@@ -53,6 +57,10 @@ const styles = StyleSheet.create({
         height: "50%",
         justifyContent: "center",
         alignItems: "center"
+    },
+    button: {
+        position: "absolute",
+        marginTop: Dim.height - 150
     }
 })
 

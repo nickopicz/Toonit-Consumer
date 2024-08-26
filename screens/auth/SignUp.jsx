@@ -167,7 +167,7 @@ const SignInScreen = ({ navigation }) => {
             </TouchableWithoutFeedback>
             <RoundedButton
                 large
-                style={styles.confirm}
+                style={styles.button}
                 textStyle={{ color: Colors.Black }}
                 // disabled={!phoneNum || !email}
                 onPress={() => {
@@ -247,8 +247,9 @@ const styles = StyleSheet.create({
     codePicker: {
         marginTop: 100,
     },
-    confirm: {
-        postition: 'absolute',
+    button: {
+        position: "absolute",
+        marginTop: Dim.height - 150,
         alignSelf: "center"
     }
 });

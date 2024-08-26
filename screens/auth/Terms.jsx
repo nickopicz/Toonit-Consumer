@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
-import { Colors } from "../../Constants";
-import CustomText from "../../common/Text";
-import { RoundedButton } from "../../common/Button";
+import { Colors, Dim } from "../../Constants";
+import CustomText from "../../components/common/Text";
+import { RoundedButton } from "../../components/common/Button";
 import Checkbox from "expo-checkbox";
 
 const TermsScreen = ({ navigation }) => {
@@ -35,7 +35,9 @@ const TermsScreen = ({ navigation }) => {
             <RoundedButton
                 large
                 disabled={!checking}
-                onPress={() => navigation.navigate("Signin")}>Continue</RoundedButton>
+                onPress={() => navigation.navigate("Signin")}
+                style={styles.button}
+            >Continue</RoundedButton>
 
         </SafeAreaView>
     )
@@ -46,7 +48,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.Background,
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
     },
     checkContainer: {
 
@@ -60,7 +61,11 @@ const styles = StyleSheet.create({
         height: 100,
     },
     agreement: { width: '85%' },
-    check: { width: 30, height: 30 }
+    check: { width: 30, height: 30 },
+    button: {
+        position: "absolute",
+        marginTop: Dim.height - 150
+    }
 
 })
 

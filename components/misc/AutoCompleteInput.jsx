@@ -52,11 +52,8 @@ const AutoCompleteInput = ({ label, searchValue, setSearchValue, onItemSelect, d
     // If the label is "Year", return only the CustomInput without the modal
     if (label === "Year") {
         return (
-            <View style={styles.inputContainer}>
-                <CustomText h4 white style={styles.text}>{label}</CustomText>
-                <View style={{ width: "90%", marginVertical: 10, borderColor: Colors.Black, borderTopWidth: 1, borderBottomWidth: 1, paddingVertical: 5 }} >
-                    <CustomText style={{ marginLeft: 20 }} p2 black> {searchValue}</CustomText>
-                </View>
+            <View style={styles.inputContainerYear}>
+
                 <CustomInput
                     large
                     placeholder="Enter the year of your car."
@@ -70,9 +67,8 @@ const AutoCompleteInput = ({ label, searchValue, setSearchValue, onItemSelect, d
 
     return (
         <View style={styles.inputContainer}>
-            <CustomText h4 white style={styles.text}>{label}</CustomText>
-            <View style={{ width: "90%", marginVertical: 10, borderColor: Colors.Black, borderTopWidth: 1, borderBottomWidth: 1, paddingVertical: 5 }} >
-                <CustomText style={{ marginLeft: 20 }} p2 black> {searchValue}</CustomText>
+            <View style={styles.choiceContainer} >
+                <CustomText style={{ marginLeft: 20 }} p1 black> {searchValue}</CustomText>
             </View>
 
             <RoundedButton style={styles.button} onPress={() => setModalVisible(true)}>
@@ -152,6 +148,13 @@ const styles = StyleSheet.create({
     button: {
         margin: 20,
         backgroundColor: Colors.White
+    },
+    choiceContainer: { width: "90%", marginVertical: 10, paddingVertical: 5 },
+    inputContainerYear: {
+        marginBottom: 10,
+        width: '100%',
+        alignItems: "center",
+        marginVertical: 20
     }
 });
 

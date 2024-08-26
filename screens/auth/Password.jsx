@@ -3,7 +3,7 @@ import { CustomInput } from "../../components/common/Input";
 import { RoundedButton } from "../../components/common/Button";
 import CustomText from "../../components/common/Text";
 import { SafeAreaView, View, StyleSheet, TouchableOpacity, Animated, Easing, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { Colors } from "../../Constants";
+import { Colors, Dim } from "../../Constants";
 import { Feather } from "@expo/vector-icons";
 
 const PasswordScreen = ({ navigation }) => {
@@ -55,7 +55,11 @@ const PasswordScreen = ({ navigation }) => {
                 </View>
 
             </TouchableWithoutFeedback>
-            <RoundedButton large trim onPress={() => navigation.navigate("Car")}>
+            <RoundedButton
+                large
+                onPress={() => navigation.navigate("Car")}
+                style={styles.button}
+            >
                 Confirm
             </RoundedButton>
         </SafeAreaView>
@@ -88,6 +92,10 @@ const styles = StyleSheet.create({
     criteriaContainer: {
         padding: 20,
         width: "90%"
+    },
+    button: {
+        position: "absolute",
+        marginTop: Dim.height - 150
     }
 });
 
