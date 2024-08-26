@@ -1,9 +1,9 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ReceiptListScreen from '../screens/History/RecepitsList';
 import ProfileScreen from '../screens/ProfileScreen';
 import CarScreen from '../screens/auth/CarChoice';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export const ProfileStack = () => {
 	return (

@@ -1,12 +1,11 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import MapScreen from '../screens/HomeScreen';
 import ServiceScreen from '../screens/JobScreens/ServicePage';
 import FirstReceiptScreen from '../screens/JobScreens/FirstReceipt';
 import PayScreen from '../screens/JobScreens/PaymentScreen';
 import ConfirmScreen from '../screens/JobScreens/ConfirmScreen';
 import SummaryScreen from '../screens/JobScreens/Summary';
-const Stack = createStackNavigator();
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
 
 export const HomeStack = () => {
 	return (

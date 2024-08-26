@@ -1,13 +1,12 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from '../screens/auth/Landing';
 import SignInScreen from '../screens/auth/SignUp';
 import VerificationScreen from '../screens/auth/Verification';
 import PasswordScreen from '../screens/auth/Password';
 import CarScreen from '../screens/auth/CarChoice';
 import TermsScreen from '../screens/auth/Terms';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export const AuthStack = () => {
 	return (
