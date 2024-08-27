@@ -1,160 +1,166 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, TouchableOpacity, Modal, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import CustomText from "../common/Text";
 import { Colors } from "../../Constants";
 import cars from "../../assets/database/unique_make_model_year_converted.json";
-import { CustomInput } from "../common/Input";
-import { RoundedButton } from "../common/Button";
+import { CustomInput } from '../common/Input';
 
-const AutoCompleteInput = ({ label, searchValue, setSearchValue, onItemSelect, dataKey, dependency }) => {
+const AutoCompleteInput = ({
+    label,
+    searchValue,
+    setSearchValue,
+    onItemSelect,
+    dataKey,
+    dependency,
+    isActive,
+    setActiveInput,
+    clearActiveInput,
+}) => {
     const [filteredData, setFilteredData] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const filterResults = (searchValue, dependency) => {
+    const filterResults = (text, dependency) => {
         let results = cars;
 
-        // Apply filtering based on dependencies
-        if (dependency) {
-            if (dataKey === "Model" && dependency) {
-                results = results.filter(car => car.Make === dependency);
-            } else if (dataKey === "Year" && dependency.brand && dependency.model) {
-                results = results.filter(car => car.Make === dependency.brand && car.Model === dependency.model);
-            }
+        if (dataKey === "Model" && dependency) {
+            results = results.filter(car => car.Make === dependency);
         }
 
-        // Map to the desired dataKey, filter out undefined or non-string values, and remove duplicates
         const uniqueResults = new Set(
             results
                 .map(car => car[dataKey])
-                .filter(value => typeof value === 'string' && value.toLowerCase().includes(searchValue.toLowerCase()))
+                .filter(value => typeof value === 'string' && value.toLowerCase().includes(text.toLowerCase()))
         );
 
-        return Array.from(uniqueResults);
+        return Array.from(uniqueResults).map(item => ({ label: item, value: item }));
     };
-
 
     useEffect(() => {
-        if (searchValue) {
-            const results = filterResults(searchValue, dependency);
-            setFilteredData(results);
-        } else {
-            setFilteredData([]);
-        }
+        const results = filterResults(searchValue, dependency);
+        setFilteredData(results);
     }, [searchValue, dependency]);
 
-    const handleSelectItem = (item) => {
-        setSearchValue(item);
-        onItemSelect(item);
-        setFilteredData([]);
-        setModalVisible(false); // Close the modal when an item is selected
+    const handleSearch = text => {
+        setSearchValue(text);
+        const results = filterResults(text, dependency);
+        setFilteredData(results);
     };
 
-    // If the label is "Year", return only the CustomInput without the modal
+    const handleChange = item => {
+        setSearchValue(item.value); // Update parent's state with selected value
+        onItemSelect(item.value);   // Notify parent of selection
+        clearActiveInput();         // Clear active input when selection is made
+    };
+
+    // Special handling for "Year" input
     if (label === "Year") {
         return (
-            <View style={styles.inputContainerYear}>
-
+            <View style={styles.container}>
+                <CustomText h4 white style={styles.text}>{label}</CustomText>
                 <CustomInput
-                    large
-                    placeholder="Enter the year of your car."
-                    keyboardType="number-pad"
+
+                    style={styles.input}
+                    autoCorrect={false}
+                    placeholder="Enter the year."
+                    iconName="calendar"
                     value={searchValue}
-                    onChangeText={setSearchValue}
+                    onChangeText={year => setSearchValue(year)}
                 />
             </View>
         );
     }
 
     return (
-        <View style={styles.inputContainer}>
-            <View style={styles.choiceContainer} >
-                <CustomText style={{ marginLeft: 20 }} p1 black> {searchValue}</CustomText>
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+
+                <CustomText h4 white style={styles.text}>{label}</CustomText>
+                <TouchableOpacity onPress={() => setSearchValue("")}>
+                    <AntDesign
+                        name="delete"
+                        size={20}
+                        color={Colors.Black} />
+                </TouchableOpacity>
             </View>
-
-            <RoundedButton style={styles.button} onPress={() => setModalVisible(true)}>
-                <CustomText p2 black>{`Search for your ${label.toLowerCase()}...`}</CustomText>
-            </RoundedButton>
-
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={styles.modalContainer}
-                >
-                    <View style={styles.modalContent}>
-                        <CustomInput
-                            large
-                            placeholder={`Search for your ${label.toLowerCase()}...`}
-                            value={searchValue}
-                            onChangeText={setSearchValue}
-                            autoFocus
-                        />
-
-                        <FlatList
-                            style={styles.dropdown}
-                            data={filteredData}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.item} onPress={() => handleSelectItem(item)}>
-                                    <CustomText p3 black>{item}</CustomText>
-                                </TouchableOpacity>
-                            )}
-                            removeClippedSubviews={false}
-                        />
-
-                        <RoundedButton onPress={() => setModalVisible(false)}>Close</RoundedButton>
-                    </View>
-                </KeyboardAvoidingView>
-            </Modal>
-        </View >
+            <Dropdown
+                style={[styles.dropdown, isActive && { borderColor: Colors.Background }]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={filteredData}
+                search
+                searchField="label"  // Specify the field to search on
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isActive ? `Select ${label.toLowerCase()}` : searchValue || `Select ${label.toLowerCase()}`}
+                searchPlaceholder={`Search for your ${label.toLowerCase()}...`}
+                value={searchValue}  // Sync the selected value with the parent's state
+                onFocus={() => {
+                    setActiveInput(); // Set active input when focused
+                    setFilteredData(filterResults(searchValue, dependency)); // Filter results when focused
+                }}
+                onBlur={() => clearActiveInput()}
+                onChange={handleChange}
+                renderLeftIcon={() => (
+                    <AntDesign
+                        style={styles.icon}
+                        color={isActive ? Colors.Background : Colors.Trim}
+                        name={label === "Model" ? "Trophy" : "car"}
+                        size={20}
+                    />
+                )}
+            />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        marginBottom: 10,
+    container: {
+        backgroundColor: Colors.Background,
+        padding: 16,
         width: '100%',
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: Colors.White,
-        borderRadius: 10,
-        padding: 20,
-        marginHorizontal: 20,
-        maxHeight: '70%',
-    },
     dropdown: {
-        backgroundColor: Colors.White,
+        height: 50,
         borderColor: Colors.Trim,
-        borderWidth: 1,
-        borderRadius: 5,
-        height: 150,
-        margin: 10,
+        borderWidth: 0.5,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        marginVertical: 10,
+        backgroundColor: Colors.White,
     },
-    item: {
-        padding: 10,
+    icon: {
+        marginRight: 5,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        fontSize: 16,
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+        borderRadius: 5,
+        borderColor: Colors.Background,
     },
     text: {
         marginLeft: 20,
     },
-    button: {
-        margin: 20,
-        backgroundColor: Colors.White
-    },
-    choiceContainer: { width: "90%", marginVertical: 10, paddingVertical: 5 },
-    inputContainerYear: {
-        marginBottom: 10,
+    input: {
         width: '100%',
-        alignItems: "center",
-        marginVertical: 20
+    },
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     }
 });
 

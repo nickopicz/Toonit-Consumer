@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Keyboard, SafeAreaView, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { Colors, Dim } from "../../Constants";
 import { RoundedButton } from "../../components/common/Button";
 import AutoCompleteInput from "../../components/misc/AutoCompleteInput";
@@ -9,10 +9,15 @@ const CarScreen = ({ navigation }) => {
     const [model, setModel] = useState("");
     const [year, setYear] = useState("");
 
+    useEffect(() => {
+        console.log("brand: ", brand);
+        console.log("model: ", model);
+        console.log("year: ", year);
+    }, [brand, model, year]);
+
     const [activeInput, setActiveInput] = useState(null); // State to track active input
 
     return (
-        // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
             <AutoCompleteInput
                 label="Brand"
@@ -42,7 +47,7 @@ const CarScreen = ({ navigation }) => {
                 setSearchValue={setYear}
                 onItemSelect={(item) => setYear(item)}
                 dataKey="Year"
-                dependency={{ brand, model }} // Filter years based on selected brand and model
+                dependency={brand && model ? { brand, model } : null} // Filter years based on selected brand and model
                 isActive={activeInput === 'year'}
                 setActiveInput={() => setActiveInput('year')}
                 clearActiveInput={() => setActiveInput(null)}
@@ -51,7 +56,7 @@ const CarScreen = ({ navigation }) => {
                 large
                 onPress={() => {
                     if (brand.length > 0 && model.length > 0 && year.length > 0) {
-                        console.log("car saved!")
+                        console.log("car saved!");
                     }
                 }}
                 style={styles.button}
@@ -59,7 +64,6 @@ const CarScreen = ({ navigation }) => {
                 Confirm
             </RoundedButton>
         </SafeAreaView>
-        // </TouchableWithoutFeedback >
     );
 };
 
@@ -69,12 +73,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.Background,
         padding: 20,
         alignItems: "center",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     button: {
         position: "absolute",
-        marginTop: Dim.height - 150
-    }
+        marginTop: Dim.height - 150,
+    },
 });
 
 export default CarScreen;
