@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     },
     button: {
         position: "absolute",
-        marginTop: Dim.height - 150
+        marginTop: Dim.height - 100
     }
 })
 
