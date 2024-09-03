@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text, TouchableOpacity, FlatList } from 'react-native';
-import { CustomInput } from '../components/common/Input';
-import { RoundedButton } from '../components/common/Button';
-import { Colors, Dim } from '../Constants';
+import { CustomInput } from '../../components/common/Input';
+import { RoundedButton } from '../../components/common/Button';
+import { Colors, Dim } from '../../Constants';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Feather, AntDesign } from '@expo/vector-icons';
-import cars from '../assets/database/unique_make_model_year_converted.json';
-import AutoCompleteModal from '../components/misc/VehicleSearchModal';
+import cars from '../../assets/database/unique_make_model_year_converted.json';
+import AutoCompleteModal from '../../components/misc/VehicleSearchModal';
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import CustomText from '../components/common/Text';
+import CustomText from '../../components/common/Text';
 
 const ProfileScreen = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');

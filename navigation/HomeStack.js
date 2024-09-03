@@ -1,9 +1,9 @@
-import MapScreen from '../screens/HomeScreen';
-import ServiceScreen from '../screens/JobScreens/ServicePage';
-import FirstReceiptScreen from '../screens/JobScreens/FirstReceipt';
-import PayScreen from '../screens/JobScreens/PaymentScreen';
-import ConfirmScreen from '../screens/JobScreens/ConfirmScreen';
-import SummaryScreen from '../screens/JobScreens/Summary';
+import MapScreen from '../screens/home/HomeScreen';
+import ServiceScreen from '../screens/home/ServicePage';
+import FirstReceiptScreen from '../screens/home/FirstReceipt';
+import PayScreen from '../screens/home/PaymentScreen';
+import ConfirmScreen from '../screens/home/ConfirmScreen';
+import SummaryScreen from '../screens/home/Summary';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 

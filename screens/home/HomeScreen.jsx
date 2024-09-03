@@ -3,15 +3,15 @@ import { StyleSheet, View, Keyboard, TouchableWithoutFeedback, SafeAreaView } fr
 import MapView, { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
-import watchLocation from '../functions/watchLocation';
-import { setCoordinates } from '../redux/slices/coordinateSlice';
+import watchLocation from '../../functions/watchLocation';
+import { setCoordinates } from '../../redux/slices/coordinateSlice';
 import * as Location from 'expo-location'
 import { useDispatch } from 'react-redux';
-import HorizontalSliderModal from '../components/misc/SlideModal';
-import SearchBar from '../components/misc/SearchBar';
-import RecenterButton from '../components/Touchables/MapAdjust';
-import MechModal from '../components/misc/MechModal';
-import SummaryModal from '../components/misc/SummaryModal';
+import HorizontalSliderModal from '../../components/misc/SlideModal';
+import SearchBar from '../../components/misc/SearchBar';
+import RecenterButton from '../../components/Touchables/MapAdjust';
+import MechModal from '../../components/misc/MechModal';
+import SummaryModal from '../../components/misc/SummaryModal';
 //must get API key
 
 const mockData = [
@@ -84,7 +84,7 @@ const MapScreen = ({ navigation }) => {
 				<MechModal
 					visible={mechModalVis}
 					onClose={() => setMechModalVis(false)}
-					profileImage={require("../assets/favicon.png")}
+					profileImage={require("../../assets/favicon.png")}
 					summaryText={exampleText}
 					onConfirm={() => {
 						navigation.navigate("Service");
@@ -94,7 +94,7 @@ const MapScreen = ({ navigation }) => {
 				<SummaryModal
 					visible={summaryModalVis}
 					onClose={() => setSummaryModalVis(false)}
-					profileImage={require("../assets/favicon.png")}
+					profileImage={require("../../assets/favicon.png")}
 					mechanicName={"John"}
 				/>
 			</View>

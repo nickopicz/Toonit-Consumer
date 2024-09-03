@@ -2,7 +2,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { HomeStack } from './HomeStack';
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../Constants';
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/home/ProfileScreen';
 import ReceiptListScreen from '../screens/History/RecepitsList';
 import { HistoryStack } from './HistoryStack';
 import { ProfileStack } from './ProfileStack';
