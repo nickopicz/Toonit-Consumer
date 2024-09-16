@@ -98,37 +98,25 @@ const MapScreen = ({ navigation }) => {
 						longitudeDelta: 0.0421,
 					}}
 				/>
-				<SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+				<SearchBar
+					searchValue={searchValue}
+					setSearchValue={setSearchValue}
+				/>
 				<HorizontalSliderModal
 					data={data}
-					setVisible={setNewJobModalVis}  // Controls modal visibility
-					setJob={setJobChoice}  // Updates the selected job
+					setVisible={setNewJobModalVis}
+					setJob={setJobChoice}
 				/>
-
-				<NewJobModal
-					visible={newJobModalVis}
-					onClose={() => setNewJobModalVis(false)}  // Close the modal
-					onConfirm={() => setNewJobModalVis(false)}  // Confirm action and close
-					job={jobChoice}  // Pass the selected job to the modal
-					data={data}  // Pass the data for the dropdown
-				/>
-				<RecenterButton onPress={handleRecenter} />
-				{/* <MechModal
-					visible={mechModalVis}
-					onClose={() => setMechModalVis(false)}
-					profileImage={require("../../assets/favicon.png")}
-					summaryText={exampleText}
-					onConfirm={() => {
-						navigation.navigate("Service");
-						setMechModalVis(false)
-					}}
-				/> */}
 				<NewJobModal
 					visible={newJobModalVis}
 					onClose={() => setNewJobModalVis(false)}
-					onConfirm={() => setNewJobModalVis(false)}
+					job={jobChoice}
 					data={data}
+					navigation={navigation}
+					onConfirm={() => setNewJobModalVis(false)}
 				/>
+				<RecenterButton onPress={handleRecenter} />
+
 				<SummaryModal
 					visible={summaryModalVis}
 					onClose={() => setSummaryModalVis(false)}

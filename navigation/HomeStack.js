@@ -5,6 +5,7 @@ import PayScreen from '../screens/home/PaymentScreen';
 import ConfirmScreen from '../screens/home/ConfirmScreen';
 import SummaryScreen from '../screens/home/Summary';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SearchScreen from '../screens/home/SearchScreen';
 const Stack = createNativeStackNavigator();
 
 export const HomeStack = () => {
@@ -18,17 +19,21 @@ export const HomeStack = () => {
 				name="Map"
 				component={MapScreen}
 			/>
-			<Stack.Screen
+			{/* <Stack.Screen
 				name="Service"
 				component={ServiceScreen}
 			/>
 			<Stack.Screen
 				name="FirstReceipt"
 				component={FirstReceiptScreen}
-			/>
+			/> */}
 			<Stack.Screen
 				name="Payment"
 				component={PayScreen}
+			/>
+			<Stack.Screen
+				name="Search"
+				component={SearchScreen}
 			/>
 			<Stack.Screen
 				name="Confirm"
