@@ -102,8 +102,6 @@ const NewJobModal = ({
                                 style={styles.input}
                                 multiline={true}
                                 ref={inputRef}
-                            // returnKeyType="default"
-
                             />
                         </TouchableOpacity>
                         <View style={styles.buttonContainer}>

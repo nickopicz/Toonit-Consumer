@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux';
 import HorizontalSliderModal from '../../components/misc/SlideModal';
 import SearchBar from '../../components/misc/SearchBar';
 import RecenterButton from '../../components/Touchables/MapAdjust';
-import MechModal from '../../components/misc/MechModal';
 import SummaryModal from '../../components/misc/SummaryModal';
 import NewJobModal from '../../components/misc/NewRequestModal';
 //must get API key
