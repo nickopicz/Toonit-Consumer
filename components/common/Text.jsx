@@ -20,19 +20,11 @@ import { Colors, Font } from '../../Constants';
   style (JS Object): All style props.
 
   Colors: (defaults to white. only apply one.) 
-  These should be updated periodically to reflect Constants.js
-	background: "#000000",
-	foreground: "#222831",
-	navbar: "#393E46",
-	contrast: "#6495ED",
-	light: "#87CEFA",
-	white: "#E0FFFF",
-	record: "#DA8F81",
-	earth: "#9d847e",
-  
+  These should be updated periodically to reflect Colors in Constants.js
+	
   Uppercase: use u prop
 
-  Example: <Text h3 red u>Agora</Text> will display RAGER in 28 pt font colored red
+  Example: <CustomText h3 background u>name: {userName}</CustomText> will display RAGER in 28 pt font colored red
 
   RN Text props (see RN docs):
 	numberOfLines (number)
