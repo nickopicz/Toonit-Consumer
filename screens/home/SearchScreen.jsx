@@ -45,7 +45,12 @@ const SearchScreen = ({ navigation }) => {
                         Find new
                     </CustomText>
                 </RoundedButton>
-                <RoundedButton small onPress={() => console.log("selected mechanic")} style={styles.button}>
+                <RoundedButton small onPress={() => {
+                    console.log("selected mechanic")
+                    navigation.navigate("Payment");
+                }
+
+                } style={styles.button}>
                     <AntDesign name='check' size={30} color={Colors.Black} />
                 </RoundedButton>
             </View>
