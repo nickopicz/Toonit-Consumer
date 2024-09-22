@@ -36,9 +36,29 @@ const NewJobModal = ({
     let future = new Date();
     future.setMonth(today.getMonth() + 3);
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         // Dispatch the selected job and notes to Redux
-        dispatch(setJob({ notes: notes, type: selectedValue, date: date.toString() }));
+        const car = {
+            make: "Toyota",
+            model: "Tacoma",
+            year: 2012
+        };
+
+        const date = new Date();
+
+        await createJob(
+            "ZHKnjw0yxNz68711M8Cr",
+            notes,
+            "NNJ",
+            "Joe Tester",
+            selectedValue,
+            date,
+            car,
+            false,
+            ""
+        );
+
+        dispatch(setJob({ notes: notes, type: selectedValue, date: date }));
 
         // Navigate to the desired screen (e.g., JobSummaryScreen)
         navigation.navigate("Search");

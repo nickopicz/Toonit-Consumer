@@ -1,6 +1,4 @@
 import MapScreen from '../screens/home/HomeScreen';
-import ServiceScreen from '../screens/home/ServicePage';
-import FirstReceiptScreen from '../screens/home/FirstReceipt';
 import PayScreen from '../screens/home/PaymentScreen';
 import ConfirmScreen from '../screens/home/ConfirmScreen';
 import SummaryScreen from '../screens/home/Summary';
@@ -19,14 +17,6 @@ export const HomeStack = () => {
 				name="Map"
 				component={MapScreen}
 			/>
-			{/* <Stack.Screen
-				name="Service"
-				component={ServiceScreen}
-			/>
-			<Stack.Screen
-				name="FirstReceipt"
-				component={FirstReceiptScreen}
-			/> */}
 			<Stack.Screen
 				name="Payment"
 				component={PayScreen}

@@ -6,9 +6,25 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { Colors } from "../../Constants";
 import { RoundedButton } from "../../components/common/Button";
 import { useStripe } from '@stripe/stripe-react-native';
+import Receipt from "../../components/misc/Receipt";
+
+
+const mockServices = [
+    { name: 'Oil Change', price: 29.99 },
+    { name: 'Tire Rotation', price: 49.99 },
+    { name: 'Brake Inspection', price: 19.99 },
+    { name: 'Engine Diagnostics', price: 89.99 },
+    { name: 'Battery Replacement', price: 120.00 },
+    { name: 'Wheel Alignment', price: 79.99 },
+    { name: 'Air Filter Replacement', price: 25.00 },
+    { name: 'Transmission Fluid Change', price: 150.00 },
+    { name: 'Spark Plug Replacement', price: 99.00 },
+];
 
 const PayScreen = ({ navigation }) => {
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+
 
     //parameter from mechanics own pricing
     const amount = 20000;
@@ -78,22 +94,28 @@ const PayScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <View style={styles.breakdown}>
+                <Receipt services={mockServices} />
+
+            </View>
             <View style={styles.buttonContainer}>
-                {/* Initialize Payment Sheet */}
-                <RoundedButton large
-                    onPress={initializePaymentSheet}
-                    // onPress={() => navigation.navigate("Confirm")}
-                    disabled={loading}>Init</RoundedButton>
-            </View>
-            <View>
                 {/* Open Payment Sheet to complete payment */}
-                <RoundedButton large onPress={
-                    openPaymentSheet
-                }
-                // disabled={!loading}
+                <RoundedButton large onPress={async () => {
+                    try {
+                        setLoading(true);  // Optional, if you want to show a loading state
+                        await initializePaymentSheet(); // Wait for initialization to complete
+                        await openPaymentSheet(); // Open the payment sheet only after initialization
+                    } catch (error) {
+                        Alert.alert('Error', 'Failed to open payment sheet. Please try again.');
+                    } finally {
+                        setLoading(false);  // Reset loading state regardless of success or failure
+                    }
+                }}
+                    disabled={loading} // Disable button if loading
                 >Pay</RoundedButton>
+
             </View>
-        </View>
+        </View >
     );
 }
 
