@@ -8,6 +8,8 @@ import { Colors } from "../../Constants";
 import { CustomInput } from "../common/Input";
 import { useDispatch } from "react-redux";
 import { setJob } from "../../redux/slices/jobSlice";
+import createJob from "../../functions/newJob";
+import { hideLoading, showLoading } from "../../redux/slices/loadingSlice";
 
 const NewJobModal = ({
     visible,
@@ -38,6 +40,7 @@ const NewJobModal = ({
 
     const handleConfirm = async () => {
         // Dispatch the selected job and notes to Redux
+        dispatch(showLoading())
         const car = {
             make: "Toyota",
             model: "Tacoma",
@@ -58,11 +61,12 @@ const NewJobModal = ({
             ""
         );
 
-        dispatch(setJob({ notes: notes, type: selectedValue, date: date }));
+        dispatch(setJob({ notes: notes, type: selectedValue, date: date.toString() }));
 
         // Navigate to the desired screen (e.g., JobSummaryScreen)
         navigation.navigate("Search");
         onConfirm();
+        dispatch(hideLoading())
         // You can also close the modal here if necessary
     };
 

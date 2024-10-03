@@ -13,6 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { StripeKey } from './keys';
 import { AuthStack } from './navigation/AuthStack';
+import LoadingScreen from './screens/LoadingScreen';
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 
@@ -36,6 +37,7 @@ export default function App() {
 					<StatusBar style="dark" />
 					{/* <SafeAreaView style={{ flex: 1 }}> */}
 					<MainTabs />
+					<LoadingScreen />
 					{/* <AuthStack /> */}
 					{/* </SafeAreaView> */}
 				</NavigationContainer>
