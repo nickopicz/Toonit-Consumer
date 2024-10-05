@@ -10,7 +10,7 @@
  *                                  Author: Nicholas Ciraulo
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -26,6 +26,10 @@ import { RoundedButton } from '../../components/common/Button';
 import { Colors, Dim } from '../../Constants';
 import { CountryPicker } from 'react-native-country-codes-picker';
 import { Feather } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { setLogin } from '../../redux/slices/loginSlice';
+import { auth } from '../../firebase';
+import { signInWithPhoneNumber } from 'firebase/auth';
 
 const SignInScreen = ({ navigation }) => {
     const phoneRef = useRef();
@@ -38,7 +42,11 @@ const SignInScreen = ({ navigation }) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
-    const [phoneNum, setPhoneNum] = useState('');
+    const [phoneNum, setPhone] = useState('');
+
+    const dispatch = useDispatch();
+
+
 
     const fadeIn = () => {
         // Will change fadeAnim value to 1 in 5 seconds
@@ -75,7 +83,7 @@ const SignInScreen = ({ navigation }) => {
                 setTimeout(() => {
                     fadeOut();
                 }, 5000);
-                return;
+                return false;
             } else {
                 let phoneNumber = countryCode + phoneNum;
                 let temp = {
@@ -85,6 +93,7 @@ const SignInScreen = ({ navigation }) => {
                 console.log('temp: ', temp);
                 // dispatch(setCredentials({ credentials: temp }));
                 // navigation.navigate('confirmation');
+                return true;
             }
         } catch (e) {
             console.warn(e);
@@ -127,7 +136,7 @@ const SignInScreen = ({ navigation }) => {
                             keyboardType="phone-pad"
                             ref={phoneRef}
                             value={phoneNum}
-                            onChangeText={(phoneNum) => setPhoneNum(phoneNum)}
+                            onChangeText={(phoneNum) => setPhone(phoneNum)}
                         />
                     </View>
                     <Animated.View
@@ -171,8 +180,11 @@ const SignInScreen = ({ navigation }) => {
                 textStyle={{ color: Colors.Black }}
                 // disabled={!phoneNum || !email}
                 onPress={() => {
-                    // handlePress();
-                    navigation.navigate("Verification")
+                    if (handlePress()) {
+                        dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+
+                        navigation.navigate("Verification", { phoneNum: countryCode + phoneNum });
+                    }
                 }}
             >
                 Continue

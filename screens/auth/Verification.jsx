@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, SafeAreaView, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import CustomText from "../../components/common/Text";
 import { CustomInput } from "../../components/common/Input";
 import { RoundedButton } from "../../components/common/Button";
 import { Colors, Dim } from "../../Constants";
+import { signInWithPhoneNumber } from "firebase/auth";
+import { app, auth } from "../../firebase";
+import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 
-
-const VerificationScreen = ({ navigation }) => {
+const VerificationScreen = ({ navigation, route }) => {
     const [code, setCode] = useState("")
+    const [confirmationResult, setConfirmationResult] = useState(null);
     const type = "email";
+    const { phoneNum } = route.params
+    const recaptchaRef = useRef(null);
+
+    useEffect(() => {
+        console.log("Phone number: ", phoneNum);  // Check if the phoneNumber is valid
+
+        try {
+            signInWithPhoneNumber(
+                auth, phoneNum, recaptchaRef.current
+            ).then((confirmationResult) => {
+                console.log("confirmation result: ", confirmationResult);
+                setConfirmationResult(confirmationResult)
+            }).catch((error) => {
+                console.warn("error sending verification code: ", error);
+            });
+
+        } catch (e) {
+            console.warn(e);
+        }
+    }, []);
+
+
+
     return (
         <SafeAreaView style={styles.container}>
+            <FirebaseRecaptchaVerifierModal
+                ref={recaptchaRef}
+                firebaseConfig={app.options}
+            />
             <TouchableWithoutFeedback
                 onPress={Keyboard.dismiss}
                 accessible={true}>
