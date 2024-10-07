@@ -181,7 +181,7 @@ const SignInScreen = ({ navigation }) => {
                 // disabled={!phoneNum || !email}
                 onPress={() => {
                     if (handlePress()) {
-                        dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+                        dispatch(setLogin({ phoneNum: countryCode + phoneNum, firstName: firstName, lastName: lastName }));
 
                         navigation.navigate("Verification", { phoneNum: countryCode + phoneNum });
                     }

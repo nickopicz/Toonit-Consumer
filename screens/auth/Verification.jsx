@@ -7,6 +7,8 @@ import { Colors, Dim } from "../../Constants";
 import { signInWithPhoneNumber } from "firebase/auth";
 import { app, auth } from "../../firebase";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../redux/slices/loginSlice";
 
 const VerificationScreen = ({ navigation, route }) => {
     const [code, setCode] = useState("")
@@ -15,9 +17,10 @@ const VerificationScreen = ({ navigation, route }) => {
     const { phoneNum } = route.params
     const recaptchaRef = useRef(null);
 
+    const dispatch = useDispatch();
     useEffect(() => {
         console.log("Phone number: ", phoneNum);  // Check if the phoneNumber is valid
-
+        console.log("firebase options: ", app.options)
         try {
             signInWithPhoneNumber(
                 auth, phoneNum, recaptchaRef.current
@@ -63,7 +66,19 @@ const VerificationScreen = ({ navigation, route }) => {
             <RoundedButton
                 large
                 onPress={() => {
-                    navigation.navigate("Password")
+                    console.log("codes: ", code)
+                    confirmationResult.confirm(code)
+                        .then((result) => {
+                            // Successfully signed in
+                            const user = result.user;
+                            console.log("user: ", user);
+                            dispatch(setLogin({ phoneNum: phoneNum }))
+                            navigation.navigate("Password")
+                        })
+                        .catch((error) => {
+                            console.error("error confirming code: ", error);
+                        });
+
                 }}
                 style={styles.button}
             >

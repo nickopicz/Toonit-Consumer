@@ -3,16 +3,23 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { Colors, Dim } from "../../Constants";
 import { RoundedButton } from "../../components/common/Button";
 import AutoCompleteInput from "../../components/misc/AutoCompleteInput";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../../redux/slices/loginSlice";
+import { handleAccountCreation } from "../../functions/CreateAuthDoc";
 
 const CarScreen = ({ navigation }) => {
     const [brand, setBrand] = useState("");
     const [model, setModel] = useState("");
     const [year, setYear] = useState("");
 
+    const { password, phoneNum, firstName, lastName } = useSelector((state) => state.login)
+    const dispatch = useDispatch();
+
     useEffect(() => {
         console.log("brand: ", brand);
         console.log("model: ", model);
         console.log("year: ", year);
+        console.log("car from redux: ", car)
     }, [brand, model, year]);
 
     const [activeInput, setActiveInput] = useState(null); // State to track active input
@@ -56,12 +63,12 @@ const CarScreen = ({ navigation }) => {
                 large
                 onPress={() => {
                     if (brand.length > 0 && model.length > 0 && year.length > 0) {
-                        console.log("car saved!");
+                        handleAccountCreation(password, phoneNum, firstName, lastName, { brand: brand, model: model, year: year })
                     }
                 }}
                 style={styles.button}
             >
-                Confirm
+                Complete Setup
             </RoundedButton>
         </SafeAreaView>
     );

@@ -59,13 +59,13 @@ const AutoCompleteInput = ({
             <View style={styles.container}>
                 <CustomText h4 white style={styles.text}>{label}</CustomText>
                 <CustomInput
-
                     style={styles.input}
                     autoCorrect={false}
                     placeholder="Enter the year."
                     iconName="calendar"
                     value={searchValue}
                     onChangeText={year => setSearchValue(year)}
+
                 />
             </View>
         );
