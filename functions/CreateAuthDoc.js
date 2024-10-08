@@ -7,7 +7,7 @@ export const handleAccountCreation = async (
 	phoneNum,
 	firstName,
 	lastName,
-	cars
+	car
 ) => {
 	try {
 		//hashing the password for security purposes
@@ -19,7 +19,7 @@ export const handleAccountCreation = async (
 			phoneNum: phoneNum,
 			firstName: firstName,
 			lastName: lastName,
-			cars: cars,
+			cars: car,
 		});
 	} catch (error) {
 		console.error('Error saving password:', error);

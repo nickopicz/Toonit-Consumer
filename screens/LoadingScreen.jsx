@@ -5,7 +5,7 @@ import { View, ActivityIndicator, StyleSheet, Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 
 const LoadingScreen = () => {
-    const isLoading = useSelector((state) => state.loading.isLoading); // Access the loading state from Redux
+    const { isLoading } = useSelector((state) => state.loading); // Access the loading state from Redux
 
     return (
         <Modal visible={isLoading} transparent animationType="fade">
