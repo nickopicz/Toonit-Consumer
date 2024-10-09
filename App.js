@@ -15,6 +15,8 @@ import { StripeKey } from './keys'; // Import your Stripe publishable key
 export default function App() {
 	const [errorMsg, setErrorMsg] = useState('');
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const { isLoading } = useSelector((state) => state.loading);
 	const [fontsLoaded, fontError] = useFonts({
 		Montserrat: require('./assets/font/Montserrat-Regular.ttf'),
 	});
@@ -23,6 +25,10 @@ export default function App() {
 	const { passwordValid } = useSelector((state) => state.authState);
 	const dispatch = useDispatch();
 
+	useEffect(() => {
+		console.log('loading in home screen: ', isLoading);
+		setLoading(isLoading);
+	}, [isLoading]);
 	// Check user authentication state
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,14 +61,15 @@ export default function App() {
 		})();
 	}, [dispatch]);
 
-	if (!fontsLoaded) {
-		return <LoadingScreen />;
-	}
+	// if (!fontsLoaded) {
+	// 	return <LoadingScreen />;
+	// }
 
 	return (
 		<StripeProvider publishableKey={StripeKey}>
 			<NavigationContainer>
 				<StatusBar style="dark" />
+				<LoadingScreen loading={loading} />
 				{errorMsg ? <Text>{errorMsg}</Text> : null}
 				{passwordValid && loggedIn ? <MainTabs /> : <AuthStack />}
 			</NavigationContainer>

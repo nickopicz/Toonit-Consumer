@@ -18,7 +18,7 @@ const PasswordScreen = ({ navigation }) => {
 
     const fadeAnim = useRef(new Animated.Value(1)).current; // Initial opacity is 1
 
-
+    const confirmRef = useRef(null);
     const dispatch = useDispatch();
     // Password regex for validation
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
@@ -73,6 +73,7 @@ const PasswordScreen = ({ navigation }) => {
                             iconName="shield"
                             value={password}
                             onChangeText={(password) => setPassword(password)}
+                            onSubmitEditing={() => confirmRef.current?.focus()}
                         />
                         <TouchableOpacity onPress={togglePasswordVisibility}>
                             <Animated.View>
@@ -89,7 +90,6 @@ const PasswordScreen = ({ navigation }) => {
                     <View style={styles.inputContainer}>
                         <CustomInput
                             large
-                            autoFocus={true}
                             secureTextEntry={!confirmPassVisible}
                             autoCorrect={false}
                             textContentType="password"
@@ -97,6 +97,7 @@ const PasswordScreen = ({ navigation }) => {
                             iconName="shield"
                             value={confirmPass}
                             onChangeText={(confirmPass) => setConfirmPass(confirmPass)}
+                            ref={confirmRef}
                         />
                         <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
                             <Animated.View>

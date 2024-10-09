@@ -20,7 +20,7 @@ const CarScreen = ({ navigation }) => {
         console.log("brand: ", brand);
         console.log("model: ", model);
         console.log("year: ", year);
-        console.log("car from redux: ", car)
+        // console.log("car from redux: ", car)
     }, [brand, model, year]);
 
     const [activeInput, setActiveInput] = useState(null); // State to track active input

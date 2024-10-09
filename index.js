@@ -12,4 +12,4 @@ const RootComponent = () => (
 );
 
 // Register the component with Expo
-registerRootComponent(RootComponent);
+export default registerRootComponent(RootComponent);

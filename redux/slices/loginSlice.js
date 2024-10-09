@@ -6,7 +6,7 @@ const loginSlice = createSlice({
 		phoneNum: '',
 		password: '',
 		firstName: '',
-		lasName: '',
+		lastName: '',
 	},
 	reducers: {
 		setLogin: (state, action) => {

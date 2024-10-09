@@ -1,14 +1,16 @@
 // src/components/LoadingScreen.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet, Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 
-const LoadingScreen = () => {
-    const { isLoading } = useSelector((state) => state.loading); // Access the loading state from Redux
-
+const LoadingScreen = ({ loading }) => {
+    // const { isLoading } = useSelector((state) => state.loading); // Access the loading state from Redux
+    // useEffect(() => {
+    //     console.log("loading: ", isLoading)
+    // }, [isLoading])
     return (
-        <Modal visible={isLoading} transparent animationType="fade">
+        <Modal visible={loading} transparent animationType="fade">
             <View style={styles.overlay}>
                 <ActivityIndicator size="large" color="#ffffff" />
             </View>
