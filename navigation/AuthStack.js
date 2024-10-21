@@ -5,6 +5,7 @@ import PasswordScreen from '../screens/auth/Password';
 import CarScreen from '../screens/auth/CarChoice';
 import TermsScreen from '../screens/auth/Terms';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NameScreen from '../screens/auth/Name';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ export const AuthStack = () => {
 			<Stack.Screen
 				name="Signin"
 				component={SignInScreen}
+			/>
+			<Stack.Screen
+				name="Name"
+				component={NameScreen}
 			/>
 			<Stack.Screen
 				name="Verification"

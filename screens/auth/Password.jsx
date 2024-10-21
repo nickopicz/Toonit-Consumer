@@ -5,20 +5,21 @@ import CustomText from "../../components/common/Text";
 import { SafeAreaView, View, StyleSheet, TouchableOpacity, Animated, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Colors, Dim } from "../../Constants";
 import { Feather } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "../../redux/slices/loginSlice";
 
 const PasswordScreen = ({ navigation }) => {
     const [passVisible, setPassVisible] = useState(false);
     const [confirmPassVisible, setConfirmPassVisible] = useState(false);
-
     const [password, setPassword] = useState("");
     const [confirmPass, setConfirmPass] = useState("");
     const [showCriteria, setShowCriteria] = useState(false);
 
-    const fadeAnim = useRef(new Animated.Value(1)).current; // Initial opacity is 1
+    const { accountExists } = useSelector((state) => state.authState)
 
+    const fadeAnim = useRef(new Animated.Value(1)).current; // Initial opacity is 1
     const confirmRef = useRef(null);
+
     const dispatch = useDispatch();
     // Password regex for validation
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
@@ -86,31 +87,31 @@ const PasswordScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    <CustomText p2 white>Confirm your password.</CustomText>
-                    <View style={styles.inputContainer}>
-                        <CustomInput
-                            large
-                            secureTextEntry={!confirmPassVisible}
-                            autoCorrect={false}
-                            textContentType="password"
-                            placeholder="Re-enter your password."
-                            iconName="shield"
-                            value={confirmPass}
-                            onChangeText={(confirmPass) => setConfirmPass(confirmPass)}
-                            ref={confirmRef}
-                        />
-                        <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
-                            <Animated.View>
-                                <Feather
-                                    name={confirmPassVisible ? "eye-off" : "eye"}
-                                    size={30}
-                                    color={Colors.Black}
-                                    style={styles.icon} />
-                            </Animated.View>
-                        </TouchableOpacity>
-                    </View>
-
-
+                    {!accountExists ? <>
+                        <CustomText p2 white>Confirm your password.</CustomText>
+                        <View style={styles.inputContainer}>
+                            <CustomInput
+                                large
+                                secureTextEntry={!confirmPassVisible}
+                                autoCorrect={false}
+                                textContentType="password"
+                                placeholder="Re-enter your password."
+                                iconName="shield"
+                                value={confirmPass}
+                                onChangeText={(confirmPass) => setConfirmPass(confirmPass)}
+                                ref={confirmRef}
+                            />
+                            <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
+                                <Animated.View>
+                                    <Feather
+                                        name={confirmPassVisible ? "eye-off" : "eye"}
+                                        size={30}
+                                        color={Colors.Black}
+                                        style={styles.icon} />
+                                </Animated.View>
+                            </TouchableOpacity>
+                        </View>
+                    </> : null}
                     <Animated.View style={{ ...styles.criteriaContainer, opacity: fadeAnim }}>
                         <CustomText p2 white>
                             Your password must:

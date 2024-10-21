@@ -30,6 +30,9 @@ import { useDispatch } from 'react-redux';
 import { setLogin } from '../../redux/slices/loginSlice';
 import { auth } from '../../firebase';
 import { signInWithPhoneNumber } from 'firebase/auth';
+import { findAccount } from '../../functions/CreateAuthDoc';
+import { setAccountExists } from '../../redux/slices/authStateSlice';
+import { hideLoading, showLoading } from '../../redux/slices/loadingSlice';
 
 const SignInScreen = ({ navigation }) => {
     const phoneRef = useRef();
@@ -100,6 +103,24 @@ const SignInScreen = ({ navigation }) => {
         }
     }
 
+    async function checkAccount() {
+        dispatch(showLoading())
+        return await findAccount(phoneNum).then((res) => {
+            if (res === true) {
+                dispatch(setAccountExists(true))
+                return true
+            } else {
+                return false
+            }
+        }).finally(() => {
+            dispatch(hideLoading())
+        })
+
+
+
+    }
+
+
 
     return (
         <SafeAreaView style={styles.background}>
@@ -156,22 +177,6 @@ const SignInScreen = ({ navigation }) => {
                             correctly
                         </CustomText>
                     </Animated.View>
-                    <CustomInput
-                        large
-                        autoCorrect={false}
-                        placeholder="first name"
-                        iconName="user"
-                        ref={firstNameRef}
-                        value={firstName}
-                        onChangeText={(name) => setFirstName(name)} />
-                    <CustomInput
-                        large
-                        autoCorrect={false}
-                        placeholder="last name"
-                        iconName="users"
-                        ref={lastNameRef}
-                        value={lastName}
-                        onChangeText={(name) => setLastName(name)} />
                 </View>
             </TouchableWithoutFeedback>
             <RoundedButton
@@ -179,16 +184,34 @@ const SignInScreen = ({ navigation }) => {
                 style={styles.button}
                 textStyle={{ color: Colors.Black }}
                 // disabled={!phoneNum || !email}
-                onPress={() => {
-                    if (handlePress()) {
-                        dispatch(setLogin({ phoneNum: countryCode + phoneNum, firstName: firstName, lastName: lastName }));
+                onPress={async () => {
+                    try {
+                        // Wait for handlePress to finish
+                        const isValid = handlePress();
+                        // If phone/email validation passes
+                        if (isValid) {
+                            // Wait for checkAccount to finish
+                            const accountExists = await checkAccount();
 
-                        navigation.navigate("Verification", { phoneNum: countryCode + phoneNum });
+                            if (!accountExists) {
+                                dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+                                navigation.navigate("Name");
+                            } else {
+                                dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+                                navigation.navigate("Verification", { phoneNum: countryCode + phoneNum })
+                            }
+                            // If both are successful, navigate to the "Name" screen
+
+
+                        }
+                    } catch (error) {
+                        console.error("Error during the process:", error);
                     }
                 }}
             >
                 Continue
             </RoundedButton>
+
             <CountryPicker
                 style={{
                     modal: {

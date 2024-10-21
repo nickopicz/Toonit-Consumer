@@ -10,7 +10,6 @@ import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../redux/slices/loginSlice";
 import { hideLoading, showLoading } from "../../redux/slices/loadingSlice";
-import { setLoading } from "../../functions/loadingToggler";
 
 const VerificationScreen = ({ navigation, route }) => {
     const [code, setCode] = useState("")
@@ -69,7 +68,7 @@ const VerificationScreen = ({ navigation, route }) => {
                 large
                 onPress={() => {
                     console.log("codes: ", code)
-                    dispatch(showLoading())
+                    // dispatch(showLoading())
                     confirmationResult.confirm(code)
                         .then((result) => {
                             // Successfully signed in

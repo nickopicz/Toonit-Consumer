@@ -1,6 +1,14 @@
-import { setDoc, doc, getDoc } from 'firebase/firestore'; // Import getDoc for retrieval
+import {
+	setDoc,
+	doc,
+	getDoc,
+	getDocs,
+	collection,
+	query,
+	where,
+} from 'firebase/firestore';
 import { db } from '../firebase';
-import * as crypto from 'crypto';
+import * as Crypto from 'expo-crypto'; // Import expo-crypto
 
 // Function to create an account and store hashed password with salt
 export const handleAccountCreation = async (
@@ -12,20 +20,19 @@ export const handleAccountCreation = async (
 ) => {
 	try {
 		// Generate a random salt
-		const salt = crypto.randomBytes(16).toString('hex');
+		const salt = Crypto.getRandomBytes(16);
+		const saltHex = Buffer.from(salt).toString('hex');
 
 		// Hash the password using pbkdf2
-		const hashedPassword = await new Promise((resolve, reject) => {
-			crypto.pbkdf2(password, salt, 10000, 64, 'sha512', (err, derivedKey) => {
-				if (err) reject(err);
-				resolve(derivedKey.toString('hex'));
-			});
-		});
+		const hashedPassword = await Crypto.digestStringAsync(
+			Crypto.CryptoDigestAlgorithm.SHA512,
+			password + saltHex
+		);
 
 		// Store the hashed password and the salt in Firestore under users docID
 		await setDoc(doc(db, 'consumers'), {
 			password: hashedPassword,
-			salt: salt, // Storing the salt for future password verification
+			salt: saltHex, // Storing the salt for future password verification
 			phoneNum: phoneNum,
 			firstName: firstName,
 			lastName: lastName,
@@ -69,24 +76,37 @@ export const retrieveAndVerifyPassword = async (enteredPassword) => {
 // Helper function to verify the password
 const verifyPassword = async (inputPassword, storedHash, storedSalt) => {
 	try {
-		const hashedInputPassword = await new Promise((resolve, reject) => {
-			crypto.pbkdf2(
-				inputPassword,
-				storedSalt,
-				10000,
-				64,
-				'sha512',
-				(err, derivedKey) => {
-					if (err) reject(err);
-					resolve(derivedKey.toString('hex'));
-				}
-			);
-		});
+		const hashedInputPassword = await Crypto.digestStringAsync(
+			Crypto.CryptoDigestAlgorithm.SHA512,
+			inputPassword + storedSalt
+		);
 
 		// Compare the hashed input password with the stored hash
 		return hashedInputPassword === storedHash;
 	} catch (error) {
 		console.error('Error verifying password:', error);
 		return false;
+	}
+};
+
+export const findAccount = async (phoneNum) => {
+	try {
+		// Create a query against the "consumers" collection where the phoneNum matches
+		const q = query(
+			collection(db, 'consumers'),
+			where('phoneNum', '==', phoneNum)
+		);
+		const querySnapshot = await getDocs(q);
+
+		if (!querySnapshot.empty) {
+			// Assuming you need to return the found account's data
+			return true;
+		} else {
+			console.log('No account found with the provided phone number.');
+			return false;
+		}
+	} catch (error) {
+		console.error('Error retrieving account:', error);
+		return { success: false, message: 'Error retrieving account' };
 	}
 };

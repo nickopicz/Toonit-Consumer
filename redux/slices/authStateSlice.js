@@ -6,14 +6,18 @@ const authStateSlice = createSlice({
 	name: 'authState',
 	initialState: {
 		passwordValid: false,
+		accountExists: false,
 	},
 	reducers: {
 		setPassValid: (state) => {
 			state.passwordValid = action.payload.passwordValid;
 		},
+		setAccountExists: (state) => {
+			state.accountExists = action.payload.accountExists;
+		},
 	},
 });
 
-export const { setPassValid } = authStateSlice.actions;
+export const { setPassValid, setAccountExists } = authStateSlice.actions;
 
 export default authStateSlice.reducer;
