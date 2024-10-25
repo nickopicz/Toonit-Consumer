@@ -106,7 +106,7 @@ const SignInScreen = ({ navigation }) => {
     async function checkAccount() {
         dispatch(showLoading())
         return await findAccount(phoneNum).then((res) => {
-            if (res === true) {
+            if (res.success === true) {
                 dispatch(setAccountExists(true))
                 return true
             } else {

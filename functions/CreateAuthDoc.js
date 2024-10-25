@@ -100,10 +100,10 @@ export const findAccount = async (phoneNum) => {
 
 		if (!querySnapshot.empty) {
 			// Assuming you need to return the found account's data
-			return true;
+			return { success: true, message: 'Found account!' };
 		} else {
 			console.log('No account found with the provided phone number.');
-			return false;
+			return { success: false, message: 'No account found.' };
 		}
 	} catch (error) {
 		console.error('Error retrieving account:', error);
