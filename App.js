@@ -71,7 +71,7 @@ export default function App() {
 				<StatusBar style="dark" />
 				<LoadingScreen loading={loading} />
 				{errorMsg ? <Text>{errorMsg}</Text> : null}
-				{passwordValid && loggedIn ? <MainTabs /> : <AuthStack />}
+				{passwordValid ? <MainTabs /> : <AuthStack />}
 			</NavigationContainer>
 		</StripeProvider>
 	);

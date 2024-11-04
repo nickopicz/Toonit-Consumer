@@ -6,7 +6,7 @@ import { SafeAreaView, View, StyleSheet, TouchableOpacity, Animated, TouchableWi
 import { Colors, Dim } from "../../Constants";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../../redux/slices/loginSlice";
+import { setLogin, setPassRed } from "../../redux/slices/loginSlice";
 
 const PasswordScreen = ({ navigation }) => {
     const [passVisible, setPassVisible] = useState(false);
@@ -14,6 +14,7 @@ const PasswordScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [confirmPass, setConfirmPass] = useState("");
     const [showCriteria, setShowCriteria] = useState(false);
+    const { phoneNum, firstName, lastName } = useSelector((state) => state.login)
 
     const { accountExists } = useSelector((state) => state.authState)
 
@@ -33,6 +34,7 @@ const PasswordScreen = ({ navigation }) => {
     };
 
     const handleConfirmPress = () => {
+        console.log("phone: ", phoneNum)
         // Check if password matches the regex criteria
         if (!passwordRegex.test(password) || password !== confirmPass) {
             setShowCriteria(true);
@@ -53,7 +55,7 @@ const PasswordScreen = ({ navigation }) => {
             return;
         }
         //dispatch password to redux state
-        dispatch(setLogin({ password: password }))
+        dispatch(setPassRed(password))
         // If everything is valid, navigate to the next screen
         navigation.navigate("Car");
     };

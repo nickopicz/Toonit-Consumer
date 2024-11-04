@@ -9,10 +9,10 @@ const authStateSlice = createSlice({
 		accountExists: false,
 	},
 	reducers: {
-		setPassValid: (state) => {
+		setPassValid: (state, action) => {
 			state.passwordValid = action.payload.passwordValid;
 		},
-		setAccountExists: (state) => {
+		setAccountExists: (state, action) => {
 			state.accountExists = action.payload.accountExists;
 		},
 	},

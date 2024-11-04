@@ -7,8 +7,8 @@ import { Colors, Dim } from "../../Constants";
 import { signInWithPhoneNumber } from "firebase/auth";
 import { app, auth } from "../../firebase";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
-import { useDispatch } from "react-redux";
-import { setLogin } from "../../redux/slices/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin, setPhoneRed } from "../../redux/slices/loginSlice";
 import { hideLoading, showLoading } from "../../redux/slices/loadingSlice";
 
 const VerificationScreen = ({ navigation, route }) => {
@@ -17,6 +17,7 @@ const VerificationScreen = ({ navigation, route }) => {
     const type = "email";
     const { phoneNum } = route.params
     const recaptchaRef = useRef(null);
+    // const { phoneNum, firstName, lastName } = useSelector((state) => state.login)
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -74,7 +75,7 @@ const VerificationScreen = ({ navigation, route }) => {
                             // Successfully signed in
                             const user = result.user;
                             console.log("user: ", user);
-                            dispatch(setLogin({ phoneNum: phoneNum }));
+                            dispatch(setPhoneRed(phoneNum));
                             navigation.navigate("Password");
                             dispatch(hideLoading());
                         })

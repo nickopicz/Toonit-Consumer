@@ -4,7 +4,6 @@ import { Colors, Dim } from "../../Constants";
 import { RoundedButton } from "../../components/common/Button";
 import AutoCompleteInput from "../../components/misc/AutoCompleteInput";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../../redux/slices/loginSlice";
 import { handleAccountCreation } from "../../functions/CreateAuthDoc";
 import { setPassValid } from "../../redux/slices/authStateSlice";
 
@@ -20,6 +19,7 @@ const CarScreen = ({ navigation }) => {
         console.log("brand: ", brand);
         console.log("model: ", model);
         console.log("year: ", year);
+        console.log("phone: ", phoneNum)
         // console.log("car from redux: ", car)
     }, [brand, model, year]);
 
@@ -65,12 +65,12 @@ const CarScreen = ({ navigation }) => {
                 onPress={() => {
                     if (brand.length > 0 && model.length > 0 && year.length > 0) {
                         try {
-
+                            console.log("phone: ", phoneNum)
                             handleAccountCreation(password, phoneNum, firstName, lastName, { brand: brand, model: model, year: year })
                         } catch (e) {
                             console.warn("error calling create function: ", e)
                         } finally {
-                            dispatch(setPassValid({ passwordValid: true }))
+                            // dispatch(setPassValid({ passwordValid: true }))
                         }
                     }
                 }}

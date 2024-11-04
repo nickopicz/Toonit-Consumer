@@ -6,11 +6,18 @@ import {
 	collection,
 	query,
 	where,
+	addDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import * as Crypto from 'expo-crypto'; // Import expo-crypto
 
-// Function to create an account and store hashed password with salt
+// Helper function to convert Uint8Array to hex string
+const bytesToHex = (bytes) => {
+	return Array.from(bytes)
+		.map((byte) => byte.toString(16).padStart(2, '0'))
+		.join('');
+};
+
 export const handleAccountCreation = async (
 	password,
 	phoneNum,
@@ -19,18 +26,23 @@ export const handleAccountCreation = async (
 	car
 ) => {
 	try {
+		console.log('phone: ', phoneNum);
+		console.log('first: ', firstName);
 		// Generate a random salt
 		const salt = Crypto.getRandomBytes(16);
-		const saltHex = Buffer.from(salt).toString('hex');
+		const saltHex = bytesToHex(salt);
 
-		// Hash the password using pbkdf2
+		console.log('Password:', password); // Debugging line
+		console.log('Salt Hex:', saltHex); // Debugging line
+
+		// Hash the password using SHA512 with the salt
 		const hashedPassword = await Crypto.digestStringAsync(
 			Crypto.CryptoDigestAlgorithm.SHA512,
 			password + saltHex
 		);
-
-		// Store the hashed password and the salt in Firestore under users docID
-		await setDoc(doc(db, 'consumers'), {
+		console.log('hash: ', hashedPassword);
+		// Store the hashed password and the salt in Firestore
+		await addDoc(collection(db, 'consumers'), {
 			password: hashedPassword,
 			salt: saltHex, // Storing the salt for future password verification
 			phoneNum: phoneNum,
@@ -38,11 +50,10 @@ export const handleAccountCreation = async (
 			lastName: lastName,
 			cars: car,
 		});
-	} catch (error) {
-		console.error('Error saving password:', error);
+	} catch (e) {
+		console.warn('error hashing: ', e);
 	}
 };
-
 // Function to retrieve user data and verify the password
 export const retrieveAndVerifyPassword = async (enteredPassword) => {
 	try {

@@ -25,25 +25,17 @@ import { CustomInput } from '../../components/common/Input';
 import { RoundedButton } from '../../components/common/Button';
 import { Colors, Dim } from '../../Constants';
 import { CountryPicker } from 'react-native-country-codes-picker';
-import { Feather } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import { setLogin } from '../../redux/slices/loginSlice';
-import { auth } from '../../firebase';
-import { signInWithPhoneNumber } from 'firebase/auth';
+import { setPhoneRed } from '../../redux/slices/loginSlice';
 import { findAccount } from '../../functions/CreateAuthDoc';
 import { setAccountExists } from '../../redux/slices/authStateSlice';
 import { hideLoading, showLoading } from '../../redux/slices/loadingSlice';
 
 const SignInScreen = ({ navigation }) => {
     const phoneRef = useRef();
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const [show, setShow] = useState(false);
     const [countryCode, setCountryCode] = useState('+1');
-    const [email, setEmail] = useState("")
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
 
     const [phoneNum, setPhone] = useState('');
 
@@ -74,28 +66,15 @@ const SignInScreen = ({ navigation }) => {
             var phoneRegExp = new RegExp(
                 /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
             );
-            var emailRegExp = new RegExp(
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            );
-
             let isPhoneValid = phoneRegExp.test(phoneNum);
-            let isEmailValid = emailRegExp.test(email);
 
-            if (!isPhoneValid && !isEmailValid) {
+            if (!isPhoneValid) {
                 fadeIn();
                 setTimeout(() => {
                     fadeOut();
                 }, 5000);
                 return false;
             } else {
-                let phoneNumber = countryCode + phoneNum;
-                let temp = {
-                    phone: phoneNumber,
-                    email: email
-                };
-                console.log('temp: ', temp);
-                // dispatch(setCredentials({ credentials: temp }));
-                // navigation.navigate('confirmation');
                 return true;
             }
         } catch (e) {
@@ -166,12 +145,13 @@ const SignInScreen = ({ navigation }) => {
                             {
                                 // Bind opacity to animated value
                                 opacity: fadeAnim,
+                                alignSelf: "flex-end"
                             },
                         ]}
                     >
                         <CustomText
                             p3
-                            red
+                            black
                         >
                             That was an invalid phone number, please check if you typed
                             correctly
@@ -192,12 +172,12 @@ const SignInScreen = ({ navigation }) => {
                         if (isValid) {
                             // Wait for checkAccount to finish
                             const accountExists = await checkAccount();
-
+                            const phoneTemp = countryCode + phoneNum;
                             if (!accountExists) {
-                                dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+                                dispatch(setPhoneRed(phoneTemp));
                                 navigation.navigate("Name");
                             } else {
-                                dispatch(setLogin({ phoneNum: countryCode + phoneNum }));
+                                dispatch(setPhoneRed(phoneNum));
                                 navigation.navigate("Verification", { phoneNum: countryCode + phoneNum })
                             }
                             // If both are successful, navigate to the "Name" screen

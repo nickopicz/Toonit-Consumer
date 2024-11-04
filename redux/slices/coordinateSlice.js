@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-const coordinatesSlice = createSlice({
+const coordinateSlice = createSlice({
 	name: 'coordinates',
 	initialState: {
 		latitude: null,
@@ -16,6 +16,6 @@ const coordinatesSlice = createSlice({
 	},
 });
 
-export const { setCoordinates } = coordinatesSlice.actions;
+export const { setCoordinates } = coordinateSlice.actions;
 
-export default coordinatesSlice.reducer;
+export default coordinateSlice.reducer;

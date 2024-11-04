@@ -9,15 +9,22 @@ const loginSlice = createSlice({
 		lastName: '',
 	},
 	reducers: {
-		setLogin: (state, action) => {
-			state.phoneNum = action.payload.phoneNum;
-			state.password = action.payload.password;
-			state.firstName = action.payload.firstName;
-			state.lastName = action.payload.lastName;
+		setPhoneRed: (state, action) => {
+			state.phoneNum = action.payload;
+		},
+		setPassRed: (state, action) => {
+			state.password = action.payload;
+		},
+		setFirstNameRed: (state, action) => {
+			state.firstName = action.payload;
+		},
+		setLastNameRed: (state, action) => {
+			state.lastName = action.payload;
 		},
 	},
 });
 
-export const { setLogin } = loginSlice.actions;
+export const { setPhoneRed, setPassRed, setFirstNameRed, setLastNameRed } =
+	loginSlice.actions;
 
 export default loginSlice.reducer;

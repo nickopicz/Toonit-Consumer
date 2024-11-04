@@ -24,13 +24,8 @@ import CustomText from '../../components/common/Text';
 import { CustomInput } from '../../components/common/Input';
 import { RoundedButton } from '../../components/common/Button';
 import { Colors, Dim } from '../../Constants';
-import { CountryPicker } from 'react-native-country-codes-picker';
-import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLogin } from '../../redux/slices/loginSlice';
-import { auth } from '../../firebase';
-import { signInWithPhoneNumber } from 'firebase/auth';
-import { findAccount } from '../../functions/CreateAuthDoc';
+import { setFirstNameRed, setLastNameRed } from '../../redux/slices/loginSlice';
 
 const NameScreen = ({ navigation }) => {
     const firstNameRef = useRef();
@@ -41,7 +36,6 @@ const NameScreen = ({ navigation }) => {
 
     const { phoneNum } = useSelector((state) => state.login)
     const dispatch = useDispatch();
-
 
 
 
@@ -87,8 +81,10 @@ const NameScreen = ({ navigation }) => {
                 textStyle={{ color: Colors.Black }}
                 // disabled={!phoneNum || !email}
                 onPress={() => {
+                    console.log("phone: ", phoneNum)
+                    dispatch(setFirstNameRed(firstName));
+                    dispatch(setLastNameRed(lastName));
 
-                    dispatch(setLogin({ firstName: firstName, lastName: lastName }));
 
                     navigation.navigate("Verification", { phoneNum: phoneNum });
 
