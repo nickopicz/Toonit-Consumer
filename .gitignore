@@ -2,7 +2,7 @@
 
 #sensitive
 /keys.js
-
+/firebase.js
 # dependencies
 node_modules/
 
